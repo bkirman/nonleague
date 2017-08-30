@@ -8,6 +8,7 @@ import uk.ac.lincoln.games.nlfs.ui.TutorialWindow;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -80,8 +81,10 @@ public class TeamStatus extends BaseScreen {
 		
 		
 		if (GameState.first_run) {
-			
-			stage.addActor(new TutorialWindow("Welcome", "Welcome to the most authentic football supporter simulation in the world!\n You support "+GameState.player_team.name+". You always have and always will. This cannot be changed.\n This screen shows your team's status, league position and next opponent. Once you get familiar with your team, prepare for your next match","Get Started"));
+			TutorialWindow tw = new TutorialWindow("Welcome", "Welcome to the most authentic football supporter simulation in the world!\n You support "+GameState.player_team.name+". You always have and always will. This cannot be changed.\n This screen shows your team's status, league position and next opponent. Once you get familiar with your team, prepare for your next match","Get Started");
+
+			stage.addActor(tw);
+
 			Gdx.input.setInputProcessor(stage);
 		}
 		

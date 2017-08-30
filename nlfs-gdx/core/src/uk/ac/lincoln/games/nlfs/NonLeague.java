@@ -19,7 +19,7 @@ public class NonLeague extends Game {
 	//public Skin skin;
 	public FitViewport viewport;
 	public GameState state;
-	private String hardware_id;
+	private String hardware_id; //used as the seed to ensure the player always gets the same team. Simulated in desktop
 	
 	public TeamStatus teamstatus_screen;//messy architecture but saves on garbage collection
 	public PreMatch prematch_screen;
@@ -55,7 +55,6 @@ public class NonLeague extends Game {
 	
 	public void create () {
 		viewport = new FitViewport(720,1280);
-		
 		
 		state = GameState.getGameState(Long.valueOf(hardware_id),true);
 		

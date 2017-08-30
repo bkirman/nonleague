@@ -11,24 +11,32 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 public class TutorialWindow extends Actor {
 	 private Table table;
-	 private static int width = 500;
-	 private static int height = 800;
-	 private Label text;
+	 private static int _width = 500;
+	 private static int _height = 800;
+     private Label text;
+     private boolean setup = false;
+
 	 public boolean dismissed = false;
 
 	    public TutorialWindow (String title_text, String body_text, String button_text) {
 	        text = new Label(body_text,Assets.skin);
 	        text.setWrap(true);
-	        table = new Table();
-	        
-			table.setBackground(Assets.skin.getDrawable("tutorial"));
+            this.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+
+            table = new Table();
+            table.pad(20);
+	        table.setBackground(Assets.skin.getDrawable("tutorial"));
 	        
 			table.add(new Label(title_text,Assets.skin,"pagetitle")).center().expandX();
 			table.row();
@@ -38,13 +46,13 @@ public class TutorialWindow extends Actor {
 	        TextButton button = new TextButton(button_text, Assets.skin);
 	        table.add(button).width(380).height(85).center();
 			table.row();
-			
-			
-	        table.setWidth(width);
-	        table.setHeight(height);
-	        
-	        
-	        table.setPosition((Gdx.graphics.getWidth()/2) - width/2 , (Gdx.graphics.getHeight()/2) - table.getHeight()/2 );
+
+
+	        table.setWidth(_width);
+	        table.setHeight(_height);
+
+
+
 	        setTouchable(Touchable.enabled);
 	        setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
@@ -55,13 +63,25 @@ public class TutorialWindow extends Actor {
                 	return true;
                 }
             });
+
+
 	        
 	    }
 
 	    @Override
 	    public void draw (Batch batch, float parentAlpha) {
-	    	if(!dismissed)
+			if(!setup) {
+
+				this.setPosition((this.getStage().getViewport().getWorldWidth() / 2) - _width / 2,1500);
+				this.addAction(Actions.moveTo(this.getX(), (this.getStage().getViewport().getWorldHeight() / 2) - _height / 2, 0.2f));
+
+				setup=true;
+			}
+			if(!dismissed)
+				table.setPosition(this.getX(),this.getY());
 	    		table.draw(batch, parentAlpha);
+
 	    }
-	    	
+
+
 }

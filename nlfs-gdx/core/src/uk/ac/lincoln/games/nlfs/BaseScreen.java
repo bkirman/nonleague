@@ -31,12 +31,9 @@ public abstract class BaseScreen implements Screen {
 		root_table.pad(20);
 		root_table.add(table);
 		
-		//stage.addActor(table);
 		table.pad(10);
 		table.setBackground(Assets.skin.getDrawable("transparent"));//.skin.getDrawable("transparent"));
-		//table.setSize(stage.getWidth()-50, stage.getHeight()-50);
-		//table.setPosition(25, 25);
-		table.setDebug(false);
+		//table.setDebug(false);
 		table.setSkin(Assets.skin);
 		Gdx.input.setInputProcessor(stage);
     }
