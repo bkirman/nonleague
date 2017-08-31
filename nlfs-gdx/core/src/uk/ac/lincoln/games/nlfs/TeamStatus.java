@@ -69,10 +69,14 @@ public class TeamStatus extends BaseScreen {
 
 		TextButton lgbutton = new TextButton("League Table", Assets.skin);
 		TextButton button = new TextButton("Prepare for Match", Assets.skin);
-		
+		TextButton statsbutton = new TextButton("Team Stats",Assets.skin);
+
 		table.add(lgbutton).width(480).height(85).colspan(2);
 		table.row();
-		table.add(button).width(480).height(85).colspan(2);
+		table.add(statsbutton).width(480).height(85).colspan(2);
+		table.row();
+
+		table.add(button).width(480).height(90).colspan(2);
 		table.row();
 		Gdx.input.setInputProcessor(stage);
 		tut = new Tutorial("Welcome", "Welcome to the most authentic football supporter simulation in the world!\n You support "+GameState.player_team.name+". You always have and always will. This cannot be changed.\n This screen shows your team's status, league position and next opponent. Once you get familiar with your team, prepare for your next match","Get Started");
@@ -94,6 +98,13 @@ public class TeamStatus extends BaseScreen {
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
             	game.changeScreen(game.leaguetable_screen);
+			}});
+		statsbutton.addListener(new InputListener() {
+			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+				return true;
+			}
+			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+				game.changeScreen(game.stats_screen);
 			}});
 	}
 	
@@ -120,11 +131,4 @@ public class TeamStatus extends BaseScreen {
 		position_table.add(graph).size(480, 80);
 		
 	}
-	
-	@Override
-	public void render(float delta){
-		super.render(delta);
-		
-	}
-
 }
