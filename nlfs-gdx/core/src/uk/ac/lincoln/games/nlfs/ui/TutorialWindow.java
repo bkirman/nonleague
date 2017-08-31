@@ -27,8 +27,6 @@ public class TutorialWindow extends Actor {
      private Label text;
      private boolean setup = false;
 
-	 public boolean dismissed = false;
-
 	    public TutorialWindow (String title_text, String body_text, String button_text) {
 	        text = new Label(body_text,Assets.skin);
 	        text.setWrap(true);
@@ -51,35 +49,35 @@ public class TutorialWindow extends Actor {
 	        table.setWidth(_width);
 	        table.setHeight(_height);
 
-
-
 	        setTouchable(Touchable.enabled);
 	        setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 	        addListener(new InputListener(){
                 public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                	setVisible(false);
-                	dismissed = true;
+                	remove();
                 	return true;
                 }
             });
 
-
-	        
 	    }
-
 	    @Override
-	    public void draw (Batch batch, float parentAlpha) {
-			if(!setup) {
+		public void act(float delta) {
+			super.act(delta);
+			if(!setup) { //set up initial animation
 
 				this.setPosition((this.getStage().getViewport().getWorldWidth() / 2) - _width / 2,1500);
 				this.addAction(Actions.moveTo(this.getX(), (this.getStage().getViewport().getWorldHeight() / 2) - _height / 2, 0.2f));
 
 				setup=true;
 			}
-			if(!dismissed)
-				table.setPosition(this.getX(),this.getY());
-	    		table.draw(batch, parentAlpha);
+		}
+
+	    @Override
+	    public void draw (Batch batch, float parentAlpha) {
+
+
+			table.setPosition(this.getX(),this.getY());
+			table.draw(batch, parentAlpha);
 
 	    }
 

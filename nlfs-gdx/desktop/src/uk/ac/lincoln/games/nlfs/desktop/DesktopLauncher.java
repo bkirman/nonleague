@@ -9,6 +9,6 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.height = 1280;
 		config.width = 720;
-		new LwjglApplication(new NonLeague("9999"), config);
+		new LwjglApplication(new NonLeague("9999"), config);//this would need to be unique if ever distributed on desktop/web
 	}
 }

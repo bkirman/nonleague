@@ -36,7 +36,7 @@ public class RitualSelector {
 			super(Assets.skin,"ritual");
 			description = name;
 			
-			add(new Image(Assets.skin.getDrawable("icons/"+icon)));
+			add(new Image(Assets.skin.getDrawable(icon)));
 			addListener(new ChangeListener() {
 				public void changed(ChangeEvent event, Actor actor) {
 					selected_label.setText(description);

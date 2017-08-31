@@ -8,6 +8,7 @@ import uk.ac.lincoln.games.nlfs.logic.Goal;
 import uk.ac.lincoln.games.nlfs.logic.Match;
 import uk.ac.lincoln.games.nlfs.logic.MatchEvent;
 import uk.ac.lincoln.games.nlfs.ui.TeamLabel;
+import uk.ac.lincoln.games.nlfs.ui.Tutorial;
 import uk.ac.lincoln.games.nlfs.ui.TutorialWindow;
 
 import com.badlogic.gdx.Gdx;
@@ -178,11 +179,9 @@ public class MatchView extends BaseScreen{
 					game.changeScreen(game.postmatch_screen);
 				}
 			}});
-		
-		if (GameState.first_run) {
-			stage.addActor(new TutorialWindow("Match View", "Welcome to the match! Here is where you see how your team performs.\n You cannot have any further impact so hit 'kick off', sit back and enjoy the mud-stained thrills of non-league football","Come on Lads!"));
-			Gdx.input.setInputProcessor(stage);
-		}
+		Tutorial tut = new Tutorial("Match View", "Welcome to the match! Here is where you see how your team performs.\n You cannot have any further impact at this point, so hit 'kick off', sit back and enjoy the mud-stained thrills of non-league football","Come on Lads!");
+		tut.setPosition(stage.getWidth()-54,6);
+		stage.addActor(tut);
 	}
 	
 	public void update() {

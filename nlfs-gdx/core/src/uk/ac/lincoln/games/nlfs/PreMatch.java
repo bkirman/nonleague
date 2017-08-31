@@ -5,6 +5,7 @@ import uk.ac.lincoln.games.nlfs.logic.GameState;
 import uk.ac.lincoln.games.nlfs.logic.Match;
 import uk.ac.lincoln.games.nlfs.ui.RitualSelector;
 import uk.ac.lincoln.games.nlfs.ui.TeamLabel;
+import uk.ac.lincoln.games.nlfs.ui.Tutorial;
 import uk.ac.lincoln.games.nlfs.ui.TutorialWindow;
 
 import com.badlogic.gdx.Gdx;
@@ -57,7 +58,7 @@ public class PreMatch extends BaseScreen{
 		"'Meat' Pie",
 		"Jam Sarnie",
 		"Soggy Chips",
-		"Dry Burger",
+		"Offal Burger",
 		"Butter Barm",
 	};
 	
@@ -139,13 +140,10 @@ public class PreMatch extends BaseScreen{
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
             	game.changeScreen(game.matchview_screen);
 			}});
-		
-		if (GameState.first_run) {
-			
-			stage.addActor(new TutorialWindow("Rituals", "You go to see all of your team's matches (of course), however you only have indirect impact on the result.\n Your job is to support your team as best as you can through careful selection of your pre-match rituals. Choose what to wear, drink, eat and bring here and refine these rituals in future matches based on your team's performance.","Choose Rituals"));
-			Gdx.input.setInputProcessor(stage);
-		}
-
+		Tutorial tut = new Tutorial("Rituals", "You go to see all of your team's matches (of course), however you only have indirect impact on the result.\n Your job is to support your team as best as you can through careful selection of your pre-match rituals. Choose what to wear, drink, eat and bring here and support your team to success!","Choose Rituals");
+		tut.setPosition(stage.getWidth()-54,6);
+		stage.addActor(tut);
+		Gdx.input.setInputProcessor(stage);
 	}
 	
 	public void update() {

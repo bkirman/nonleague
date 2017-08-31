@@ -54,7 +54,7 @@ public class GameState {
 		//Try to load game from storage. If none exists create a new league
 		if(!this.loadGame()) {
 			Gdx.app.log("Start","no savefile found, creating new league");
-			first_run = true;//show tutorial
+			first_run = true;//show tutorial by default
 			league = new League(assets);
 			player_team = league.teams.get(rand.nextInt(league.teams.size()));//randomly select a player team
 			player_team.setPlayerControlled(true);

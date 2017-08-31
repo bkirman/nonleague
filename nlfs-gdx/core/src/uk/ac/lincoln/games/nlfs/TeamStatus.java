@@ -3,8 +3,7 @@ package uk.ac.lincoln.games.nlfs;
 import uk.ac.lincoln.games.nlfs.logic.GameState;
 import uk.ac.lincoln.games.nlfs.ui.LeaguePositionGraph;
 import uk.ac.lincoln.games.nlfs.ui.TeamLabel;
-import uk.ac.lincoln.games.nlfs.ui.TutorialWindow;
-
+import uk.ac.lincoln.games.nlfs.ui.Tutorial;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -25,7 +24,7 @@ public class TeamStatus extends BaseScreen {
 	private Table position_table;
 	private TeamLabel team_label,next_opponent_label;
 	private Label league_pos_label,unplayed_label,stadium_label,home_away_label,forecast_label, opp_pos_label;
-	
+	private Tutorial tut;
 	
 	public TeamStatus(final NonLeague game) {
 		super(game);
@@ -63,11 +62,8 @@ public class TeamStatus extends BaseScreen {
 		table.add("Forecast: ").right();
 		table.add(forecast_label).left();
 		table.row();
-		
-		
-		
-		//position_graph = new Image(LeaguePositionGraph.generateLeaguePositionGraph(new ArrayList<Integer>(Arrays.asList(0))));
-		//table.add(position_graph).expandX().colspan(2);
+
+
 		table.add(position_table).colspan(2).expand();
 		table.row();
 
@@ -78,15 +74,12 @@ public class TeamStatus extends BaseScreen {
 		table.row();
 		table.add(button).width(480).height(85).colspan(2);
 		table.row();
-		
-		
-		if (GameState.first_run) {
-			TutorialWindow tw = new TutorialWindow("Welcome", "Welcome to the most authentic football supporter simulation in the world!\n You support "+GameState.player_team.name+". You always have and always will. This cannot be changed.\n This screen shows your team's status, league position and next opponent. Once you get familiar with your team, prepare for your next match","Get Started");
+		Gdx.input.setInputProcessor(stage);
+		tut = new Tutorial("Welcome", "Welcome to the most authentic football supporter simulation in the world!\n You support "+GameState.player_team.name+". You always have and always will. This cannot be changed.\n This screen shows your team's status, league position and next opponent. Once you get familiar with your team, prepare for your next match","Get Started");
+		tut.setPosition(stage.getWidth()-54,6);
+		stage.addActor(tut);
 
-			stage.addActor(tw);
 
-			Gdx.input.setInputProcessor(stage);
-		}
 		
 		button.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {

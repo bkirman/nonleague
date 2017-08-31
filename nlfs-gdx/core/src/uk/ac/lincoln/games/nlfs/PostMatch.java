@@ -3,6 +3,7 @@ package uk.ac.lincoln.games.nlfs;
 import uk.ac.lincoln.games.nlfs.logic.GameState;
 import uk.ac.lincoln.games.nlfs.logic.MatchResult;
 import uk.ac.lincoln.games.nlfs.ui.TeamLabel;
+import uk.ac.lincoln.games.nlfs.ui.Tutorial;
 import uk.ac.lincoln.games.nlfs.ui.TutorialWindow;
 
 import com.badlogic.gdx.Gdx;
@@ -77,10 +78,10 @@ public class PostMatch extends BaseScreen {
 		results_table.pad(10f);
 		root_table.row().padTop(25);
 		root_table.add(results_table);
-		if (GameState.first_run) {
-			stage.addActor(new TutorialWindow("Post-Match", "The game is over. Here we can see a summary of the match as reported in the local papers, plus some details about other league results.\n From here, the cycle begins again - go to your next match and refine your rituals.\n Will you support your team all the way to the non-non-leagues?","Go Wide"));
-			Gdx.input.setInputProcessor(stage);
-		}
+		Tutorial tut = new Tutorial("Post-Match", "The game is over. Here we can see a summary of the match as reported in the local papers, plus some details about other league results.\n From here, the cycle begins again - go to your next match and refine your rituals.\n Will you support your team all the way to the non-non-leagues?","Go Wide");
+		tut.setPosition(stage.getWidth()-54,6);
+		stage.addActor(tut);
+
 	}
 	
 	public void setResult(MatchResult mr) {
