@@ -26,7 +26,8 @@ public class Team {
 	
 	public String colour_primary,colour_base;
 			
-	public transient ArrayList<Footballer> defenders,midfielders,goalkeepers,strikers;
+	public transient ArrayList<Footballer> defenders,midfielders,goalkeepers,strikers,substitutes;
+	public transient Footballer manager;
 	
 	/**
 	 * Generate a new team from the supplied assets
@@ -35,7 +36,7 @@ public class Team {
 		this.player_control = false;
 		this.league = league;
 		
-		win_bias = 0.5 - GameState.rand.nextDouble(); //gain a random bias between -0.5 and +0.5
+		win_bias = 0.5 - GameState.rand.nextDouble(); //gain a random bias between -0.5 and +0.5. The bias is an abstract representation of general team quality. theoretically teams with higher bias tend to win more, but only slightly.
 		
 		//generate name, stadium
 		do {
@@ -54,7 +55,8 @@ public class Team {
 		
 		//generate players (4-4-2 is the only formation used in real non-league football. Hard coded for realism.)
 		footballers = new ArrayList<Footballer>();
-		//TODO make sure footballer names are unique within their team
+		manager = new Footballer(assets,this,Position.MGR);
+		footballers.add(manager);
 		goalkeepers = new ArrayList<Footballer>();
 		Footballer player = new Footballer(assets,this,Position.GK); 
 		footballers.add(player);
@@ -78,6 +80,12 @@ public class Team {
 			footballers.add(player);
 			strikers.add(player);
 		}
+		substitutes = new ArrayList<Footballer>();
+		for(int i=0;i<6;i++) {
+			player = new Footballer(assets,this,Position.SUB);
+			footballers.add(player);
+			substitutes.add(player);
+		}
 	}
 	
 	public Team() {}
@@ -98,6 +106,8 @@ public class Team {
 		if(position==Position.GK) return goalkeepers.get(GameState.rand.nextInt(goalkeepers.size()));
 		if(position==Position.ST) return strikers.get(GameState.rand.nextInt(strikers.size()));
 		if(position==Position.DF) return defenders.get(GameState.rand.nextInt(defenders.size()));
+		if(position==Position.SUB) return substitutes.get(GameState.rand.nextInt(substitutes.size()));
+		if(position==Position.MGR) return manager;
 		return midfielders.get(GameState.rand.nextInt(midfielders.size()));
 	}
 	
@@ -125,12 +135,15 @@ public class Team {
 		defenders = new ArrayList<Footballer>();
 		midfielders = new ArrayList<Footballer>();
 		strikers = new ArrayList<Footballer>();
+		substitutes = new ArrayList<Footballer>();
 		for (Footballer f: footballers){
 			f.team = this;
 			if(f.getPosition()==Position.GK) goalkeepers.add(f);
 			if(f.getPosition()==Position.DF) defenders.add(f);
 			if(f.getPosition()==Position.MF) midfielders.add(f);
 			if(f.getPosition()==Position.ST) strikers.add(f);
+			if(f.getPosition()==Position.SUB) substitutes.add(f);
+			if(f.getPosition()==Position.MGR) manager = f;
 		}
 	}
 }

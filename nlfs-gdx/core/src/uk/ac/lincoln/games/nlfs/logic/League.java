@@ -101,7 +101,10 @@ public class League {
 		else {//not a new league
 			teams.addAll(league_teams);
 		}
-		 
+		//clear all goals for existing teams
+		for(Team t:teams) {
+			for(Footballer f:t.footballers) f.resetGoals();
+		}
 		if(!GameState.assets.isGenLoaded()) GameState.assets.loadGenData();//load data files into memory for team generation
 		//fill rest of league with teams
 		for(int i=teams.size();i<LEAGUE_SIZE;i++) {

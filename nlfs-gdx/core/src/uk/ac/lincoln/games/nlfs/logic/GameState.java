@@ -85,6 +85,7 @@ public class GameState {
 	    Gdx.app.log("SAVE","Game Saved to "+SAVEFILE);
 	}
 	public boolean loadGame() {
+		Gdx.app.log("LOAD", "Checking for save file in "+Gdx.files.getLocalStoragePath());
 		if(!enable_saving) return false;
 		Json json = new Json();
 		String s = "";

@@ -10,6 +10,7 @@ public class Goal implements Comparable<Goal>{
 	public Goal(Footballer scorer,int time) {
 		this.time = time;
 		this.scorer = scorer;
+		scorer.addGoal();
 		this.scorer_id = scorer.getName();
 	}
 	public Goal() {}

@@ -1,5 +1,8 @@
 Conference
 League
+League
+League
 Premier
-Division
+Division One
 Championship
+Combination
