@@ -2,6 +2,7 @@ package uk.ac.lincoln.games.nlfs.logic;
 
 import static java.util.Arrays.asList;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 /**
@@ -55,7 +56,23 @@ public class Match {
 		String[] possible_weather = {"Mild","Wet","Overcast","Sleet","Stormy","Snow","Drizzle","Showers","Pouring","Cats and Dogs","Misty"};
 	    return possible_weather[(GameState.rand2.nextInt(possible_weather.length))]; 
 	}
-	
+
+	/**
+	 * Returns an arraylist of all players on the pitch (not subs/mgrs)
+	 * @return
+	 */
+	public ArrayList<Footballer> getActivePlayers () {
+		ArrayList<Footballer> out = new ArrayList<Footballer>();
+		out.addAll(home.goalkeepers);
+		out.addAll(home.defenders);
+		out.addAll(home.midfielders);
+		out.addAll(home.strikers);
+		out.addAll(away.goalkeepers);
+		out.addAll(away.defenders);
+		out.addAll(away.midfielders);
+		out.addAll(away.strikers);
+		return out;
+	}
 	/**
 	 * Calculates the results for this match.
 	 * Note, match engine should be run for player-controlled games

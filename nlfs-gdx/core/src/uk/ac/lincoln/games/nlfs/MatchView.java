@@ -41,7 +41,7 @@ public class MatchView extends BaseScreen{
 	private Table event_table;
 	private ArrayList<Goal> goals;
 	//private int mins_in_match;
-	private int current_minute, current_home, current_away;
+	private int current_minute, current_home, current_away,total_minutes; //current_minute IN this half
 	public static float SIMULATION_S_PER_MIN = 0.3f;//lower this is, faster the simulation gets (0.3f is about right)
 	private static boolean SKIP_MATCH = false;//debug setting skips slow match report
 	private enum MatchState {PRE,H1,HT,H2,FT};
@@ -55,19 +55,19 @@ public class MatchView extends BaseScreen{
 	private class RunMinute extends Task {
 		@Override
 		public void run() {
-			if(current_state==MatchState.H2&&current_minute>match.result.match_length) {
+			if(current_state==MatchState.H2&&current_minute>match.result.second_half_length) {
 				this.cancel();
 				current_state = MatchState.FT;
 				button.setText("Leave Match");
 				button.setDisabled(false);
-				
+
 				event_table.add("Full Time","score_report").colspan(2).center();
 				event_table.row();
 
 				action_pane.fling(1f, 0f, -500f);
 				return;
 			}
-			if(current_state==MatchState.H1&&current_minute>(match.result.match_length/2)) {
+			if(current_state==MatchState.H1&&current_minute>(match.result.first_half_length)) {
 				this.cancel();
 				current_state = MatchState.HT;
 				button.setText("Second Half");
@@ -75,22 +75,56 @@ public class MatchView extends BaseScreen{
 				event_table.add("Half Time","score_report").colspan(2).center();
 				event_table.row();
 				action_pane.fling(1f, 0f, -500f);
+				current_minute = 0;
 				return;
 			}
 			//resolve a minute's worth of match time
-			
-			
-			clock_label.setText(" "+String.valueOf(current_minute)+" ");
+			if(current_state==MatchState.H2)
+				total_minutes = match.result.first_half_length+current_minute;
+			else total_minutes = current_minute;
+
+
+			if(current_minute==45&&current_state==MatchState.H1) {
+				Label l;
+				event_table.add("45: ","event_report").right().top().maxWidth(40);
+				l = new Label(String.valueOf(match.result.first_half_length-45)+" minutes of injury time",Assets.skin);
+				l.setWrap(true);
+				event_table.add(l).left().expandX().width(560);
+
+				event_table.row();
+				action_pane.fling(1f, 0f, -500f);
+			}
+			else if(current_minute==45&&current_state==MatchState.H2) {
+				Label l;
+				event_table.add("90: ","event_report").right().top().maxWidth(40);
+				l = new Label(String.valueOf(match.result.first_half_length-45)+" minutes of injury time",Assets.skin);
+				l.setWrap(true);
+				event_table.add(l).left().expandX().width(560);
+
+				event_table.row();
+				action_pane.fling(1f, 0f, -500f);
+			}
+
+			if(current_state==MatchState.H1)
+				clock_label.setText(" "+String.valueOf(total_minutes)+" ");
+			else if(current_state==MatchState.H2)
+				clock_label.setText(" "+String.valueOf(45+current_minute)+" ");
 			for(MatchEvent me:match.result.match_events) {
-				if(current_minute==me.minute) {
-					event_table.add(String.valueOf(current_minute)+": ","event_report").right().maxWidth(40);
-					event_table.add(me.getDescription() ,"event_report").left().expandX();
+				if(total_minutes==me.minute) {
+					if(current_state==MatchState.H1)
+						event_table.add(String.valueOf(total_minutes)+": ","event_report").right().top().maxWidth(40);
+					else if(current_state==MatchState.H2)
+						event_table.add(String.valueOf(45+current_minute)+": ","event_report").right().top().maxWidth(40);
+					Label l = new Label(me.getDescription(),Assets.skin);
+					l.setWrap(true);
+					event_table.add(l).left().expandX().width(560);
+
 					event_table.row();
 					action_pane.fling(1f, 0f, -500f);
 				}
 			}
 			for(Goal g : goals) {
-				if(g.time==current_minute){
+				if(g.time==total_minutes){
 					//vibrate
 					Gdx.input.vibrate(800);
 					if(g.scorer.team==match.home) {
@@ -101,11 +135,13 @@ public class MatchView extends BaseScreen{
 						current_away++;
 						away_score_label.setText(" "+String.valueOf(current_away)+" ");
 					}
-					
+					Label l = new TeamLabel(g.scorer.team,"teamname");
+					l.setText(" GOAL for "+g.scorer.team.name.toUpperCase()+" ");
+
 					//add text
-					event_table.add("GOAL for "+g.scorer.team.name,"score_report").colspan(2).center();
+					event_table.add(l).colspan(2).center();
 					event_table.row();
-					event_table.add(String.valueOf(current_minute)+": ","event_report").right().maxWidth(40);
+					event_table.add(String.valueOf(total_minutes)+": ","event_report").right().maxWidth(40);
 					event_table.add(g.scorer.getName()+" ("+g.scorer.getPosition().toString()+")" ,"event_report").left().expandX();
 					event_table.row();
 					action_pane.fling(1f, 0f, -500f);
@@ -139,7 +175,8 @@ public class MatchView extends BaseScreen{
 		
 		event_table = new Table(Assets.skin);
 		event_table.setBackground(Assets.skin.getDrawable("darken"));
-		//event_table.setDebug(true);		
+		event_table.setWidth(600);
+		//event_table.setDebug(true);
 		action_pane = new ScrollPane(event_table);
 		table.add(action_pane).colspan(2).width(600).height(650).expand().fill();
 		
@@ -188,7 +225,6 @@ public class MatchView extends BaseScreen{
 		current_minute = 0;
 		current_home = 0;
 		current_away = 0;
-		//mins_in_match = 94;
 		match = GameState.league.findTeamsNextFixture(GameState.player_team);
 		GameState.league.playWeek();
 		

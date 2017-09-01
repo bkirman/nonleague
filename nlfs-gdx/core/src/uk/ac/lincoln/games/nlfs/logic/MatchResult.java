@@ -2,19 +2,17 @@ package uk.ac.lincoln.games.nlfs.logic;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 
 import uk.ac.lincoln.games.nlfs.Assets;
 import uk.ac.lincoln.games.nlfs.logic.Footballer.Position;
 import uk.ac.lincoln.games.nlfs.logic.MatchEvent.MatchEventType;
 
-
-
 public class MatchResult {
 	public transient Match match;
 	public ArrayList<Goal> home_goals, away_goals;
 	public ArrayList<MatchEvent> match_events;
-	public int match_length;
+	public int first_half_length;
+    public int second_half_length;
 	public int gate;
 	
 	public MatchResult(Match match,int h_goals,int a_goals){
@@ -22,51 +20,41 @@ public class MatchResult {
 		this.home_goals = new ArrayList<Goal>();
 		this.away_goals = new ArrayList<Goal>();
 		this.match_events = new ArrayList<MatchEvent>();
+
+        first_half_length = 46+ GameState.rand2.nextInt(7);
+        second_half_length = 46+ GameState.rand2.nextInt(7);
 		//calculate scorers
 		for(int i=0;i<h_goals;i++){
-			this.home_goals.add(new Goal(pickScorer(match.home),(GameState.rand2.nextInt(96))));
+			this.home_goals.add(new Goal(pickScorer(match.home),(GameState.rand2.nextInt(first_half_length+second_half_length))));
 		}
 		for(int i=0;i<a_goals;i++){
-			this.away_goals.add(new Goal(pickScorer(match.away),(GameState.rand2.nextInt(96))));
+			this.away_goals.add(new Goal(pickScorer(match.away),(GameState.rand2.nextInt(first_half_length+second_half_length))));
 		}
 		//calculate events
-		ArrayList<Footballer> players = new ArrayList<Footballer>();
-		players.addAll(match.home.footballers);
-		players.addAll(match.away.footballers);
-		for(int i=0;i<20;i++) { //TODO Fix odds
-			//TODO: players can be sent off//if(rand.nextInt(20)==1) match_events.add(new MatchEvent(players.get(rand.nextInt(players.size())),MatchEvent.MatchEventType.REDCARD,match,rand.nextInt(94)));
-			if(GameState.rand2.nextInt(30)==1) match_events.add(new MatchEvent(players.get(GameState.rand2.nextInt(players.size())),MatchEvent.MatchEventType.YELLOWCARD,match,GameState.rand2.nextInt(96)));
-			if(GameState.rand2.nextInt(15)==1) match_events.add(new MatchEvent(players.get(GameState.rand2.nextInt(players.size())),MatchEvent.MatchEventType.WARNING,match,GameState.rand2.nextInt(96)));
-			if(GameState.rand2.nextInt(20)==1) match_events.add(new MatchEvent(players.get(GameState.rand2.nextInt(players.size())),MatchEvent.MatchEventType.KNOCK,match,GameState.rand2.nextInt(96)));
-		}
+
+		for(int i=0;i<10+GameState.rand2.nextInt(10);i++) {//10-20 events per match
+			match_events.add(new MatchEvent(match,GameState.rand2.nextInt(first_half_length+second_half_length)));
+        }
+
+        /*
+        TODO: Make players able to get 2nd yellow card or red card
+        At the moment the next lines prevent that from happening. Obviously this would be good, but sendings-off create headaches for us:
+            * Currently events are given random times. we would need to sim them minute by minute, to make sure an event doesn't happen to a player who is off
+                * Note this also makes substitutions tricky.
+            * What happens in future matches? tracking bans between matches will require significant rewrite. What is the benefit? Flavour?
+         */
+        //remove all but first yellow card for each player
+        ArrayList<Footballer> yellows = new ArrayList<Footballer>();
+        for(MatchEvent me: match_events){
+            if(me.type==MatchEventType.YELLOWCARD)
+                if(yellows.contains(me.player)) match_events.remove(me);
+                else yellows.add(me.player);
+        }
+
 		Collections.sort(match_events);
 		
-		ArrayList<MatchEvent> to_delete = new ArrayList<MatchEvent>();
-		//check no double yellow cards (TODO: make this, and red cards, possible)
-		for(MatchEvent me : match_events) {
-			if(me.type==MatchEventType.YELLOWCARD) {
-				for(MatchEvent me2:match_events) {
-					if(me.player==me2.player &&me!=me2) {
-						if(!to_delete.contains(me2)) to_delete.add(me2);//just delete it
-					}
-				}
-			}
-		}
-		for (MatchEvent me : to_delete) {
-			match_events.remove(me);
-		}
-		
-		//calculate match length
-		match_length = 91+(GameState.rand2.nextInt(7));
-		//make sure length is right for goals and events
-		for(MatchEvent me: match_events)
-			if(me.minute>match_length) match_length=me.minute;
-		for(Goal g:home_goals)
-			if(g.time>match_length) match_length = g.time;
-		for(Goal g:away_goals)
-			if(g.time>match_length) match_length = g.time;
-		//set gate for this match
-		gate = 70 + GameState.rand2.nextInt(200) + ((League.LEAGUE_SIZE - GameState.league.getTeamPosition(match.home))*8)+((League.LEAGUE_SIZE - GameState.league.getTeamPosition(match.away))*5);
+		//set gate for this match. more fans come if the team is doing well
+		gate = 70 + GameState.rand2.nextInt(190) + ((League.LEAGUE_SIZE - GameState.league.getTeamPosition(match.home))*8)+((League.LEAGUE_SIZE - GameState.league.getTeamPosition(match.away))*2);
 		
 	}
 	public MatchResult(){}
@@ -78,7 +66,7 @@ public class MatchResult {
 	
 	/**
 	 * Returns a random scoring player
-	 * @param selectedTeam
+	 * @param team
 	 * @return
 	 */
 	private Footballer pickScorer(Team team){

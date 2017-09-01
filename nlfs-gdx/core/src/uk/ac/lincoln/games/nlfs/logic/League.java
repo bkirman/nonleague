@@ -169,19 +169,21 @@ public class League {
 	 * Also fills public arraylist of weekly results
 	 */
 	public void playWeek() {
+		Gdx.app.log("SIM","Playing week");
 		MatchResult mr;
 		weekly_results.clear();
-		try {
+		//try {
 			while(nextFixture().week==current_week) {
 				mr = nextFixture().run();
 				weekly_results.add(mr);
+				Gdx.app.log("SIM","Simmed "+mr.match.home.name+" vs "+mr.match.away.name);
 				addResult(mr);//add to league calcs
 			}
-		}
-		catch(NullPointerException e) {
+		//}
+		//catch(NullPointerException e) {
 			//end of season, no more results to add. 
-			System.out.println("End of Season");
-		}
+		//	System.out.println("End of Season");
+		//}
 		current_week++;
 		//update weekly positions
 		int i=1;
