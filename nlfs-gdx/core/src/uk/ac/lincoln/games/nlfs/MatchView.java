@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.utils.StringBuilder;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 
@@ -111,10 +112,16 @@ public class MatchView extends BaseScreen{
 				clock_label.setText(" "+String.valueOf(45+current_minute)+" ");
 			for(MatchEvent me:match.result.match_events) {
 				if(total_minutes==me.minute) {
-					if(current_state==MatchState.H1)
-						event_table.add(String.valueOf(total_minutes)+": ","event_report").right().top().maxWidth(40);
-					else if(current_state==MatchState.H2)
-						event_table.add(String.valueOf(45+current_minute)+": ","event_report").right().top().maxWidth(40);
+					String min = String.valueOf(total_minutes);
+					if(current_state==MatchState.H1) {
+						min = String.valueOf(total_minutes);
+						if(total_minutes>45) min = "45+" + String.valueOf(total_minutes-45);
+					}
+					else if(current_state==MatchState.H2) {
+						min = String.valueOf(total_minutes-45);
+						if(total_minutes>90) min = "90+" + String.valueOf(total_minutes-match.result.first_half_length);
+					}
+					event_table.add(min+": ","event_report").right().top().maxWidth(40);
 					Label l = new Label(me.getDescription(),Assets.skin);
 					l.setWrap(true);
 					event_table.add(l).left().expandX().width(560);
@@ -201,7 +208,9 @@ public class MatchView extends BaseScreen{
             	return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int b2) {
-            	if(current_state == MatchState.PRE || current_state == MatchState.HT) {
+				Assets.click_sfx.play();
+				if(current_state == MatchState.PRE || current_state == MatchState.HT) {
+
 					button.setDisabled(true);
 					button.setText("Please Wait");
 					Timer.schedule(new RunMinute(), SIMULATION_S_PER_MIN, SIMULATION_S_PER_MIN);

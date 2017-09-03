@@ -40,6 +40,7 @@ public class TeamStats extends BaseScreen {
                 return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                Assets.click_sfx.play();
                 game.changeScreen(game.teamstatus_screen);
             }});
 

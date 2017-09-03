@@ -40,6 +40,7 @@ public class RitualSelector {
 			addListener(new ChangeListener() {
 				public void changed(ChangeEvent event, Actor actor) {
 					selected_label.setText(description);
+
 				}});
 		}
 		

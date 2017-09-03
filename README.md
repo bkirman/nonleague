@@ -41,3 +41,6 @@ Images:
 	- <a href="http://www.flaticon.com/authors/tutsplus" title="TutsPlus">TutsPlus</a> 
 	- <a href="http://www.flaticon.com/authors/spovv" title="spovv">spovv</a>
 	- <a href="http://www.flaticon.com/authors/icons8" title="Icons8">Icons8</a>
+Sounds:
+-------
+- Click: Littlerobotsoundfactory, http://freesound.org/people/littlerobotsoundfactory/sounds/288909/

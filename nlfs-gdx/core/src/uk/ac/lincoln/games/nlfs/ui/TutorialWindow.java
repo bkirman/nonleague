@@ -54,7 +54,8 @@ public class TutorialWindow extends Actor {
 
 	        addListener(new InputListener(){
                 public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                	remove();
+					Assets.click_sfx.play();
+					remove();
                 	return true;
                 }
             });

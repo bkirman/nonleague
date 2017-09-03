@@ -138,6 +138,7 @@ public class PreMatch extends BaseScreen{
             	return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+				Assets.click_sfx.play();
             	game.changeScreen(game.matchview_screen);
 			}});
 		Tutorial tut = new Tutorial("Rituals", "You go to see all of your team's matches (of course), however you only have indirect impact on the result.\n Your job is to support your team as best as you can through careful selection of your pre-match rituals. Choose what to wear, drink, eat and bring here and support your team to success!","Choose Rituals");

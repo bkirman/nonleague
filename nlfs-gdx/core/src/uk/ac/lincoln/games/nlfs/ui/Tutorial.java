@@ -29,6 +29,7 @@ public class Tutorial extends Actor {
         setBounds(0, 0, getWidth(), getHeight());//relative to actor!
         addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                Assets.click_sfx.play();
                 getStage().addActor(tw);
                 return true;
             }

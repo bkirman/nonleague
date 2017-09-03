@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -29,13 +30,24 @@ public class Assets {
 	public static AssetManager manager;
 	
 	private boolean gen_loaded;
+
+	public static Sound click_sfx;
 	
 	public Assets() {
 		gen_loaded = false;
 		manager = new AssetManager();
 		loadSkin();
 		loadRunData();
-		
+
+		click_sfx = Gdx.audio.newSound(Gdx.files.internal("click.wav"));
+	}
+
+	/**
+	 * Clean up
+	 */
+	public static void dispose() {
+		skin.dispose();
+		click_sfx.dispose();
 	}
 	
 	public boolean isGenLoaded() { return gen_loaded;}
@@ -118,39 +130,6 @@ public class Assets {
 		pm.fill();
 		skin.add("tutorial",new Texture(pm));
 		
-		
-		//skin.
-		
-		//skin.add("darken", manager.get("darken.png"),Texture.class);
-		//skin.add("base", manager.get("base.png"),Texture.class);
-		//skin.add("transparent", manager.get("transparent.png"),Texture.class);
-		
-		// Generate a 1x1 white texture andtore it in the skin named "white".
-		/*
-		Pixmap pixmap = new Pixmap(1, 1, Format.RGBA8888);
-		pixmap.setColor(Color.WHITE);
-		pixmap.fill();
-		
-		Pixmap pm2 = new Pixmap(1,1,Format.RGBA8888);
-		pm2.setColor(1f, 1f, 1f, 0.3f);
-		pm2.fill();
-		skin.add("transparent",new Texture(pm2));
-		pm2 = new Pixmap(1,1,Format.RGBA8888);
-		pm2.setColor(1f, 1f, 1f, 0.7f);
-		pm2.fill();
-		skin.add("base",new Texture(pm2));
-		Pixmap pm3 = new Pixmap(1,1,Format.RGBA8888);
-		pm3.setColor(0f, 0f, 0f, 0.3f);
-		pm3.fill();
-		skin.add("darken",new Texture(pm3));
-		*/		
-		//Texture texture = new Texture(Gdx.files.internal("titlefont.png"));
-		//texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		
-		//skin.add("default", new BitmapFont());
-		
-		//skin.add("default", new LabelStyle(new BitmapFont(),Color.WHITE));
-		//skin.add("stretch", new LabelStyle(new BitmapFont(),Color.RED));
 	}
 	
 	/**

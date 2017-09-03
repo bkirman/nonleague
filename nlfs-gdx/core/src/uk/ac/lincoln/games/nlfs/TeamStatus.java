@@ -90,6 +90,7 @@ public class TeamStatus extends BaseScreen {
             	return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+				Assets.click_sfx.play();
             	game.changeScreen(game.prematch_screen);
 			}});
 		lgbutton.addListener(new InputListener() {
@@ -97,13 +98,15 @@ public class TeamStatus extends BaseScreen {
             	return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-            	game.changeScreen(game.leaguetable_screen);
+				Assets.click_sfx.play();
+				game.changeScreen(game.leaguetable_screen);
 			}});
 		statsbutton.addListener(new InputListener() {
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 				return true;
 			}
 			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+				Assets.click_sfx.play();
 				game.changeScreen(game.stats_screen);
 			}});
 	}

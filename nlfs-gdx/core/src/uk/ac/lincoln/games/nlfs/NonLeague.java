@@ -58,7 +58,7 @@ public class NonLeague extends Game {
 		viewport = new FitViewport(720,1280);
 		
 		state = GameState.getGameState(Long.valueOf(hardware_id),true);
-		
+
 		teamstatus_screen = new TeamStatus(this);
 		prematch_screen = new PreMatch(this);
 		matchview_screen = new MatchView(this);
@@ -68,8 +68,8 @@ public class NonLeague extends Game {
 		splash_screen = new SplashScreen(this);
 		stats_screen = new TeamStats(this);
 		//start app flow
-		teamstatus_screen.update();
-		//this.changeScreen(teamstatus_screen);
+		//bk teamstatus_screen.update();
+
 		this.changeScreen(splash_screen);
 	}
 
@@ -86,8 +86,7 @@ public class NonLeague extends Game {
 	}
 	
 	public void dispose () {
-		//GameState.getGameState(Long.valueOf(hardware_id)).saveGame();//pause always happens before quit anyway
-		Assets.skin.dispose();
+		Assets.dispose();
 	}
 	
 	public NonLeague(String hardware_id) {
