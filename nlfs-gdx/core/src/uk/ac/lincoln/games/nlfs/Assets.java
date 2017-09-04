@@ -31,7 +31,7 @@ public class Assets {
 	
 	private boolean gen_loaded;
 
-	public static Sound click_sfx;
+	public static Sound click_sfx,swish_sfx,goal_sfx,whistle_sfx,gameend_sfx;
 	
 	public Assets() {
 		gen_loaded = false;
@@ -40,6 +40,10 @@ public class Assets {
 		loadRunData();
 
 		click_sfx = Gdx.audio.newSound(Gdx.files.internal("click.wav"));
+		swish_sfx = Gdx.audio.newSound(Gdx.files.internal("swish.wav"));
+		goal_sfx = Gdx.audio.newSound(Gdx.files.internal("goal.mp3"));
+		whistle_sfx = Gdx.audio.newSound(Gdx.files.internal("whistle.wav"));
+		gameend_sfx = Gdx.audio.newSound(Gdx.files.internal("finalwhistle.mp3"));
 	}
 
 	/**
@@ -48,6 +52,10 @@ public class Assets {
 	public static void dispose() {
 		skin.dispose();
 		click_sfx.dispose();
+		swish_sfx.dispose();
+		goal_sfx.dispose();
+		whistle_sfx.dispose();
+		gameend_sfx.dispose();
 	}
 	
 	public boolean isGenLoaded() { return gen_loaded;}

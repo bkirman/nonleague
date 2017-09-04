@@ -4,6 +4,7 @@ import uk.ac.lincoln.games.nlfs.logic.GameState;
 import uk.ac.lincoln.games.nlfs.ui.LeaguePositionGraph;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -33,6 +34,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 public class SplashScreen extends BaseScreen {
 	private Title title;
     private Label label;
+	private Sound intro;
 
 	private class Title extends Actor {
 		Texture title_screen = new Texture(Gdx.files.internal("title_screen.png"));
@@ -42,10 +44,13 @@ public class SplashScreen extends BaseScreen {
 
 			addListener(new InputListener(){
 				public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+					intro.stop();
+					intro.dispose();
 					game.changeScreen(game.teamstatus_screen);
 					return true;
 				}
 			});
+			intro = Gdx.audio.newSound(Gdx.files.internal("intro.mp3"));
 		}
 
 		@Override
@@ -74,7 +79,10 @@ public class SplashScreen extends BaseScreen {
         label.addAction(sequence(fadeOut(0.0f),fadeIn(0.2f),forever(sequence(fadeIn(0.4f),fadeOut(0.4f)))));
         label.addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                game.changeScreen(game.teamstatus_screen);
+				intro.stop();
+				intro.dispose();
+				game.changeScreen(game.teamstatus_screen);
+
                 return true;
             }
         });
@@ -84,7 +92,7 @@ public class SplashScreen extends BaseScreen {
 
 	}
 	public void update(){
-		
+		intro.play();
 	}
 	
 	@Override

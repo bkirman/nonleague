@@ -59,6 +59,7 @@ public class MatchView extends BaseScreen{
 			if(current_state==MatchState.H2&&current_minute>match.result.second_half_length) {
 				this.cancel();
 				current_state = MatchState.FT;
+				Assets.gameend_sfx.play();
 				button.setText("Leave Match");
 				button.setDisabled(false);
 
@@ -125,6 +126,7 @@ public class MatchView extends BaseScreen{
 					Label l = new Label(me.getDescription(),Assets.skin);
 					l.setWrap(true);
 					event_table.add(l).left().expandX().width(560);
+					if(me.type== MatchEvent.MatchEventType.YELLOWCARD) Assets.whistle_sfx.play();
 
 					event_table.row();
 					action_pane.fling(1f, 0f, -500f);
@@ -144,6 +146,7 @@ public class MatchView extends BaseScreen{
 					}
 					Label l = new TeamLabel(g.scorer.team,"teamname");
 					l.setText(" GOAL for "+g.scorer.team.name.toUpperCase()+" ");
+					Assets.goal_sfx.play();
 
 					//add text
 					event_table.add(l).colspan(2).center();

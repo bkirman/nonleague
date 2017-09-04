@@ -45,11 +45,13 @@ public class MatchResult {
          */
         //remove all but first yellow card for each player
         ArrayList<Footballer> yellows = new ArrayList<Footballer>();
+		ArrayList<MatchEvent> remove = new ArrayList<MatchEvent>();
         for(MatchEvent me: match_events){
             if(me.type==MatchEventType.YELLOWCARD)
-                if(yellows.contains(me.player)) match_events.remove(me);
+                if(yellows.contains(me.player)) remove.add(me);
                 else yellows.add(me.player);
         }
+        for(MatchEvent me:remove) match_events.remove(me);
 
 		Collections.sort(match_events);
 		

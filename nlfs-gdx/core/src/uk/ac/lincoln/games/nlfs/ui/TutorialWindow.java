@@ -61,6 +61,7 @@ public class TutorialWindow extends Actor {
             });
 
 	    }
+	    public void reset() {setup=false;}
 	    @Override
 		public void act(float delta) {
 			super.act(delta);
@@ -68,7 +69,7 @@ public class TutorialWindow extends Actor {
 
 				this.setPosition((this.getStage().getViewport().getWorldWidth() / 2) - _width / 2,1500);
 				this.addAction(Actions.moveTo(this.getX(), (this.getStage().getViewport().getWorldHeight() / 2) - _height / 2, 0.2f));
-
+				Assets.swish_sfx.play();
 				setup=true;
 			}
 		}
