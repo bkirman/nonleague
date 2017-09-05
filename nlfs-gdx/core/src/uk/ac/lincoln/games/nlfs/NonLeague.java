@@ -55,6 +55,7 @@ public class NonLeague extends Game {
 	}
 	
 	public void create () {
+		Gdx.app.log("NONLEAGUE","Starting up");
 		viewport = new FitViewport(720,1280);
 		
 		state = GameState.getGameState(Long.valueOf(hardware_id),true);
@@ -68,7 +69,6 @@ public class NonLeague extends Game {
 		splash_screen = new SplashScreen(this);
 		stats_screen = new TeamStats(this);
 		//start app flow
-		//bk teamstatus_screen.update();
 
 		this.changeScreen(splash_screen);
 	}

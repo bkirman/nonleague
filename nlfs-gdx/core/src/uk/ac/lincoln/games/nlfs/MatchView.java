@@ -60,6 +60,7 @@ public class MatchView extends BaseScreen{
 			if(current_state==MatchState.H2&&current_minute>match.result.second_half_length) {
 				this.cancel();
 				current_state = MatchState.FT;
+                Assets.bg_sfx.stop();
 				Assets.gameend_sfx.play();
 				button.setText("Leave Match");
 				button.setDisabled(false);
@@ -74,6 +75,8 @@ public class MatchView extends BaseScreen{
 				this.cancel();
 				current_state = MatchState.HT;
 				button.setText("Second Half");
+                Assets.bg_sfx.stop();
+                Assets.ht_sfx.play();
 				button.setDisabled(false);
 				event_table.add("Half Time","score_report").colspan(2).center();
 				event_table.row();
@@ -244,6 +247,7 @@ public class MatchView extends BaseScreen{
 					button.setDisabled(true);
 					button.setText("Please Wait");
 					Timer.schedule(new RunMinute(), SIMULATION_S_PER_MIN, SIMULATION_S_PER_MIN);
+                    Assets.bg_sfx.play(0.35f);
 					if(current_state==MatchState.PRE)
 						current_state = MatchState.H1;
 					else
@@ -297,7 +301,6 @@ public class MatchView extends BaseScreen{
 			current_state = MatchState.FT;
 		}
 	}
-	
 
 
 	

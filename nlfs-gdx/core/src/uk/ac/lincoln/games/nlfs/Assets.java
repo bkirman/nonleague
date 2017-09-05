@@ -34,7 +34,7 @@ public class Assets {
 	
 	private boolean gen_loaded;
 
-	public static Sound click_sfx,swish_sfx,goal_sfx,whistle_sfx,gameend_sfx;
+	public static Sound click_sfx,swish_sfx,goal_sfx,whistle_sfx,gameend_sfx,bg_sfx,ht_sfx;
 	public static GoalParticles goal_particles;
 	
 	public Assets() {
@@ -42,12 +42,14 @@ public class Assets {
 		manager = new AssetManager();
 		loadSkin();
 		loadRunData();
-
+        Gdx.app.log("ASSETS","Loading audio");
 		click_sfx = Gdx.audio.newSound(Gdx.files.internal("click.wav"));
 		swish_sfx = Gdx.audio.newSound(Gdx.files.internal("swish.wav"));
 		goal_sfx = Gdx.audio.newSound(Gdx.files.internal("goal.mp3"));
 		whistle_sfx = Gdx.audio.newSound(Gdx.files.internal("whistle.wav"));
 		gameend_sfx = Gdx.audio.newSound(Gdx.files.internal("finalwhistle.mp3"));
+        bg_sfx = Gdx.audio.newSound(Gdx.files.internal("bg.mp3"));
+        ht_sfx = Gdx.audio.newSound(Gdx.files.internal("htwhistle.mp3"));
 		goal_particles = new GoalParticles();
 	}
 
@@ -61,6 +63,8 @@ public class Assets {
 		goal_sfx.dispose();
 		whistle_sfx.dispose();
 		gameend_sfx.dispose();
+        bg_sfx.dispose();
+        ht_sfx.dispose();
 		goal_particles.dispose();
 	}
 	
@@ -92,7 +96,6 @@ public class Assets {
 				colour_line.add(line.split(" on ")[1]);
 				
 				team_colours.add(colour_line);
-				//Gdx.app.log("TEST", colour_line.toString());
 			}
 		} catch (IOException e) {
             //CRASH TODO: fail gracefully
