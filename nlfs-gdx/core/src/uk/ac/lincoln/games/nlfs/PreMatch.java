@@ -26,6 +26,10 @@ public class PreMatch extends BaseScreen{
 	private Label stadium_label;//,weather_label;
 	
 	private TextButton button;
+	RitualSelector clothes_ritual;
+	RitualSelector food_ritual;
+	RitualSelector drink_ritual;
+	RitualSelector bring_ritual;
 	
 	private static String[] drink_icons = {
 		"none",
@@ -114,10 +118,10 @@ public class PreMatch extends BaseScreen{
 		table.add(stadium_label).expandX().colspan(2).center();
 		table.row().padBottom(15);
 		
-		RitualSelector clothes_ritual = new RitualSelector("Wearing",clothing_icons,clothing_names);
-		RitualSelector food_ritual = new RitualSelector("Eating",food_icons,food_names);
-		RitualSelector drink_ritual = new RitualSelector("Drinking",drink_icons,drink_names);
-		RitualSelector bring_ritual = new RitualSelector("Bringing",bringing_icons,bringing_names);
+		clothes_ritual = new RitualSelector("Wearing",clothing_icons,clothing_names);
+		food_ritual = new RitualSelector("Eating",food_icons,food_names);
+		drink_ritual = new RitualSelector("Drinking",drink_icons,drink_names);
+		bring_ritual = new RitualSelector("Bringing",bringing_icons,bringing_names);
 		//clothes_ritual.validate();
 		table.add(clothes_ritual.getActor()).expandX().center().colspan(2);
 		table.row().padBottom(10);
@@ -158,8 +162,13 @@ public class PreMatch extends BaseScreen{
 		if(match.away.colour_base==match.home.colour_base&&match.away.colour_primary==match.home.colour_primary) {
 			away_label.getStyle().background = Assets.skin.newDrawable("base",Assets.skin.getColor(match.away.colour_primary));
 			away_label.getStyle().fontColor = Assets.skin.getColor(match.away.colour_base);
-		} 
-		
+		}
+
+		//RESET the ritual clickers - this is important because we want rituals to be chosen explicitly for the study. However in terms of UX it is better if it is saved.
+		clothes_ritual.reset();
+		food_ritual.reset();
+		drink_ritual.reset();
+		bring_ritual.reset();
 		//weather_label.setText(match.getWeather());
 		stadium_label.setText(match.getWeather()+" at "+match.home.stadium);
 	}

@@ -81,27 +81,27 @@ public class MatchView extends BaseScreen{
 				return;
 			}
 			//resolve a minute's worth of match time
-			if(current_state==MatchState.H2)
-				total_minutes = match.result.first_half_length+current_minute;
-			else total_minutes = current_minute;
+			//if(current_state==MatchState.H2)
+			//	total_minutes = match.result.first_half_length+current_minute;
+			//else total_minutes = current_minute;
 
 
 			if(current_minute==45&&current_state==MatchState.H1) {
 				Label l;
-				event_table.add("45: ","event_report").right().top().maxWidth(40);
+				event_table.add("45: ","event_report").right().top();
 				l = new Label(String.valueOf(match.result.first_half_length-45)+" minutes of injury time",Assets.skin);
 				l.setWrap(true);
-				event_table.add(l).left().expandX().width(560);
+				event_table.add(l).left().expandX().width(550);
 
 				event_table.row();
 				action_pane.fling(1f, 0f, -500f);
 			}
 			else if(current_minute==45&&current_state==MatchState.H2) {
 				Label l;
-				event_table.add("90: ","event_report").right().top().maxWidth(40);
-				l = new Label(String.valueOf(match.result.first_half_length-45)+" minutes of injury time",Assets.skin);
+				event_table.add("90: ","event_report").right().top();
+				l = new Label(String.valueOf(match.result.second_half_length-45)+" minutes of injury time",Assets.skin);
 				l.setWrap(true);
-				event_table.add(l).left().expandX().width(560);
+				event_table.add(l).left().expandX().width(550);
 
 				event_table.row();
 				action_pane.fling(1f, 0f, -500f);
@@ -116,16 +116,16 @@ public class MatchView extends BaseScreen{
 					String min = String.valueOf(total_minutes);
 					if(current_state==MatchState.H1) {
 						min = String.valueOf(total_minutes);
-						if(total_minutes>45) min = "45+" + String.valueOf(total_minutes-45);
+						if(current_minute>=45) min = "45+" + String.valueOf(total_minutes-45);
 					}
 					else if(current_state==MatchState.H2) {
-						min = String.valueOf(total_minutes-45);
-						if(total_minutes>90) min = "90+" + String.valueOf(total_minutes-match.result.first_half_length);
+						min = String.valueOf(total_minutes-(match.result.first_half_length-45));
+						if(current_minute>=45) min = "90+" + String.valueOf(total_minutes-match.result.first_half_length-45);
 					}
-					event_table.add(min+": ","event_report").right().top().maxWidth(40);
+					event_table.add(min+": ","event_report").right().top();
 					Label l = new Label(me.getDescription(),Assets.skin);
 					l.setWrap(true);
-					event_table.add(l).left().expandX().width(560);
+					event_table.add(l).left().expandX().width(550);
 					if(me.type== MatchEvent.MatchEventType.YELLOWCARD) Assets.whistle_sfx.play();
 
 					event_table.row();
@@ -151,7 +151,15 @@ public class MatchView extends BaseScreen{
 					//add text
 					event_table.add(l).colspan(2).center();
 					event_table.row();
-					event_table.add(String.valueOf(total_minutes)+": ","event_report").right().maxWidth(40);
+					String min = String.valueOf(total_minutes);
+					if(current_state==MatchState.H1 && current_minute>=45){
+						min = "45+" + String.valueOf(total_minutes-45);
+					}
+					else if(current_state==MatchState.H2) {
+						min = String.valueOf(total_minutes-(match.result.first_half_length-45));
+						if(current_minute>=45) min = "90+" + String.valueOf(total_minutes-match.result.first_half_length-45);
+					}
+					event_table.add(min+": ","event_report").right();
 					event_table.add(g.scorer.getName()+" ("+g.scorer.getPosition().toString()+")" ,"event_report").left().expandX();
 					event_table.row();
 					action_pane.fling(1f, 0f, -500f);
@@ -160,6 +168,7 @@ public class MatchView extends BaseScreen{
 					
 			}
 			current_minute++;
+			total_minutes++;
 			
 		}
 	}
@@ -234,7 +243,8 @@ public class MatchView extends BaseScreen{
 	}
 	
 	public void update() {
-		current_minute = 0;
+		current_minute = 0; //current minute in this half
+		total_minutes = 0; //total minutes elapsed in match so far.
 		current_home = 0;
 		current_away = 0;
 		match = GameState.league.findTeamsNextFixture(GameState.player_team);
@@ -262,7 +272,7 @@ public class MatchView extends BaseScreen{
 		event_table.clear();
 		
 		//do gate
-		event_table.add(" We join "+String.valueOf(match.result.gate)+" fans at "+match.home.stadium,"event_report").colspan(2).left().fillX().expandX();
+		event_table.add(" We join "+String.valueOf(match.result.gate)+" fans at "+match.home.stadium,"event_report").left().fillX().expandX().colspan(2);
 		event_table.row();
 		current_state = MatchState.PRE;
 		if(SKIP_MATCH){

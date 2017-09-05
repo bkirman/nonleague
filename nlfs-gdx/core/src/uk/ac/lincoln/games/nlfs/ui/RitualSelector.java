@@ -25,17 +25,18 @@ public class RitualSelector {
 	//private WidgetGroup wg;
 	private Label selected_label;
 	private Table table;
+	private ButtonGroup bg;
 	
 	private ArrayList<RitualButton> buttons;
 	private ScrollPane sp;
 	
 	public class RitualButton extends Button {
 		private String description;
-		
+		public String icon;
 		RitualButton(String icon, String name) {
 			super(Assets.skin,"ritual");
 			description = name;
-			
+			this.icon = icon;
 			add(new Image(Assets.skin.getDrawable(icon)));
 			addListener(new ChangeListener() {
 				public void changed(ChangeEvent event, Actor actor) {
@@ -50,7 +51,7 @@ public class RitualSelector {
 	public RitualSelector(String description,String[] icons, String[] names) {
 		selected_label = new Label("Nothing Special",Assets.skin);
 		buttons = new ArrayList<RitualButton>();
-		ButtonGroup bg = new ButtonGroup();
+		bg = new ButtonGroup();
 		HorizontalGroup hg = new HorizontalGroup();
 		
 		for(int i=0;i<icons.length;i++) {
@@ -73,6 +74,14 @@ public class RitualSelector {
 		table.row();
 		table.add(sp).colspan(2);
 		
+	}
+
+	public void reset() { //reset selection
+		bg.uncheckAll();
+		for(RitualButton r:buttons){
+			if(r.icon=="none") r.setChecked(true);
+			else r.setChecked(false);
+		}
 	}
 	
 	public Table getActor() {return table;}
