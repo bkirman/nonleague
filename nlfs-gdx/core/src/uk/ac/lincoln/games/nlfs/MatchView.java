@@ -13,6 +13,9 @@ import uk.ac.lincoln.games.nlfs.ui.TutorialWindow;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
@@ -22,8 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.utils.StringBuilder;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 
@@ -38,11 +40,9 @@ public class MatchView extends BaseScreen{
 	private TeamLabel home_label,away_label;
 	private Label home_score_label,away_score_label,clock_label;
 	private ScrollPane action_pane;
-	//private VerticalGroup action_group;
 	private Table event_table;
 	private ArrayList<Goal> goals;
-	//private int mins_in_match;
-	private int current_minute, current_home, current_away,total_minutes; //current_minute IN this half
+	private int current_minute, current_home, current_away,total_minutes; //current_minute IN this half total_minutes PLAYED this match
 	public static float SIMULATION_S_PER_MIN = 0.3f;//lower this is, faster the simulation gets (0.3f is about right)
 	private static boolean SKIP_MATCH = false;//debug setting skips slow match report
 	private enum MatchState {PRE,H1,HT,H2,FT};
@@ -56,6 +56,7 @@ public class MatchView extends BaseScreen{
 	private class RunMinute extends Task {
 		@Override
 		public void run() {
+            /* this is all fairly horrific but working out the timings at different statuses is a bit mind-bending*/
 			if(current_state==MatchState.H2&&current_minute>match.result.second_half_length) {
 				this.cancel();
 				current_state = MatchState.FT;
@@ -80,11 +81,6 @@ public class MatchView extends BaseScreen{
 				current_minute = 0;
 				return;
 			}
-			//resolve a minute's worth of match time
-			//if(current_state==MatchState.H2)
-			//	total_minutes = match.result.first_half_length+current_minute;
-			//else total_minutes = current_minute;
-
 
 			if(current_minute==45&&current_state==MatchState.H1) {
 				Label l;
@@ -107,10 +103,19 @@ public class MatchView extends BaseScreen{
 				action_pane.fling(1f, 0f, -500f);
 			}
 
-			if(current_state==MatchState.H1)
-				clock_label.setText(" "+String.valueOf(total_minutes)+" ");
-			else if(current_state==MatchState.H2)
-				clock_label.setText(" "+String.valueOf(45+current_minute)+" ");
+			if(current_state==MatchState.H1) {//set clock display
+                if(current_minute<=45)
+                    clock_label.setText(" " + String.valueOf(total_minutes) + " ");
+                else
+                    clock_label.setText(" 45+"+ String.valueOf(total_minutes-45)+" ");
+			}
+			else if(current_state==MatchState.H2) {
+                if (current_minute <= 45)
+                    clock_label.setText(" " + String.valueOf(45+current_minute) + " ");
+                else
+                    clock_label.setText(" 90+" + String.valueOf(total_minutes - match.result.first_half_length-46) + " ");
+            }
+
 			for(MatchEvent me:match.result.match_events) {
 				if(total_minutes==me.minute) {
 					String min = String.valueOf(total_minutes);
@@ -136,22 +141,34 @@ public class MatchView extends BaseScreen{
 				if(g.time==total_minutes){
 					//vibrate
 					Gdx.input.vibrate(800);
+                    table.validate();
 					if(g.scorer.team==match.home) {
 						current_home++;
 						home_score_label.setText(" "+String.valueOf(current_home)+" ");
+                        Assets.goal_particles.setPosition(
+                                home_score_label.localToStageCoordinates(new Vector2(0,0)).x+home_score_label.getWidth()/2,
+                                home_score_label.localToStageCoordinates(new Vector2(0,0)).y+home_score_label.getHeight()/2);
 					}
 					else {
 						current_away++;
 						away_score_label.setText(" "+String.valueOf(current_away)+" ");
+                        Assets.goal_particles.setPosition(
+                                away_score_label.localToStageCoordinates(new Vector2(0,0)).x+away_score_label.getWidth()/2,
+                                away_score_label.localToStageCoordinates(new Vector2(0,0)).y+away_score_label.getHeight()/2);
 					}
-					Label l = new TeamLabel(g.scorer.team,"teamname");
+					TeamLabel l = new TeamLabel(g.scorer.team,"teamname");
 					l.setText(" GOAL for "+g.scorer.team.name.toUpperCase()+" ");
 					Assets.goal_sfx.play();
+                    Assets.goal_particles.setParent(g.scorer.team);
+                    stage.addActor(Assets.goal_particles);
 
 					//add text
 					event_table.add(l).colspan(2).center();
 					event_table.row();
-					String min = String.valueOf(total_minutes);
+                    event_table.validate();//
+
+
+                    String min = String.valueOf(total_minutes);
 					if(current_state==MatchState.H1 && current_minute>=45){
 						min = "45+" + String.valueOf(total_minutes-45);
 					}
@@ -197,7 +214,7 @@ public class MatchView extends BaseScreen{
 		event_table.setWidth(600);
 		//event_table.setDebug(true);
 		action_pane = new ScrollPane(event_table);
-		table.add(action_pane).colspan(2).width(600).height(650).expand().fill();
+		table.add(action_pane).colspan(2).width(610).height(650).expand().fill();
 		
 		table.row().padTop(5);
 		
@@ -206,10 +223,11 @@ public class MatchView extends BaseScreen{
 		table2.add(stopwatch).maxSize(68,75).padRight(4).right();
 		clock_label = new Label(" 0 ",Assets.skin,"timer");
 		clock_label.getStyle().background = Assets.skin.newDrawable("base",Color.WHITE); //TODO should be properly assigned in skin
-		table2.add(clock_label).width(67).right();
+        clock_label.setAlignment(Align.center);
+		table2.add(clock_label).width(110).center();
 		button = new TextButton("Leave Match", Assets.skin);	
 
-		table2.add(button).width(480).height(85).padLeft(5).left();
+		table2.add(button).width(440).height(85).padLeft(5).left();
 		
 		table.add(table2).colspan(2);
 		
@@ -280,12 +298,7 @@ public class MatchView extends BaseScreen{
 		}
 	}
 	
-	
-	
-	@Override
-	public void render(float delta){
-		super.render(delta);
-	}
+
 
 	
 }

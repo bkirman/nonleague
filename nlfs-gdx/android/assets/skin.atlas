@@ -6,14 +6,14 @@ filter: Nearest,Nearest
 repeat: none
 anorak
   rotate: false
-  xy: 896, 158
+  xy: 798, 158
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 barm
   rotate: false
-  xy: 700, 60
+  xy: 700, 158
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
@@ -27,28 +27,28 @@ base
   index: -1
 beer
   rotate: false
-  xy: 602, 158
+  xy: 504, 158
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 bg_fill
   rotate: false
-  xy: 158, 44
+  xy: 1484, 86
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 bovril
   rotate: false
-  xy: 1092, 60
+  xy: 1386, 60
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 boy
   rotate: false
-  xy: 1288, 60
+  xy: 1190, 158
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
@@ -62,7 +62,7 @@ brolly
   index: -1
 burger
   rotate: false
-  xy: 798, 158
+  xy: 602, 60
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
@@ -93,28 +93,28 @@ button_patch_down
   index: -1
 chest
   rotate: false
-  xy: 1386, 60
+  xy: 1288, 60
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 chips
   rotate: false
-  xy: 1190, 158
+  xy: 994, 60
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 darken
   rotate: false
-  xy: 1484, 93
+  xy: 1536, 155
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 dog
   rotate: false
-  xy: 1190, 60
+  xy: 1288, 158
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
@@ -128,21 +128,21 @@ help
   index: -1
 lager
   rotate: false
-  xy: 504, 158
+  xy: 896, 60
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 none
   rotate: false
-  xy: 798, 60
+  xy: 700, 60
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 pants
   rotate: false
-  xy: 994, 158
+  xy: 896, 158
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
@@ -154,37 +154,44 @@ paper
   orig: 500, 200
   offset: 0, 0
   index: -1
+particle
+  rotate: false
+  xy: 158, 20
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 pie
-  rotate: false
-  xy: 504, 60
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: -1
-pop
-  rotate: false
-  xy: 700, 158
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: -1
-sandwich
-  rotate: false
-  xy: 896, 60
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: -1
-scarf
   rotate: false
   xy: 1484, 158
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
+pop
+  rotate: false
+  xy: 602, 158
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+sandwich
+  rotate: false
+  xy: 798, 60
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+scarf
+  rotate: false
+  xy: 1386, 158
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
 shirt
   rotate: false
-  xy: 1288, 158
+  xy: 1092, 60
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
@@ -198,28 +205,28 @@ stopwatch
   index: -1
 tea
   rotate: false
-  xy: 602, 60
+  xy: 504, 60
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 transparent
   rotate: false
-  xy: 1536, 155
+  xy: 1582, 202
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 tuba
   rotate: false
-  xy: 994, 60
+  xy: 994, 158
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 vuvuzela
   rotate: false
-  xy: 1386, 158
+  xy: 1190, 60
   size: 96, 96
   orig: 96, 96
   offset: 0, 0

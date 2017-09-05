@@ -8,7 +8,9 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -66,7 +68,6 @@ public class SplashScreen extends BaseScreen {
 		super(game);
 		
 		stage.clear();
-		
 		title = new Title();
 		title.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		title.setTouchable(Touchable.enabled);
@@ -88,6 +89,7 @@ public class SplashScreen extends BaseScreen {
         });
         stage.addActor(label);
 
+
 		Gdx.input.setInputProcessor(stage);
 
 	}
@@ -95,8 +97,5 @@ public class SplashScreen extends BaseScreen {
 		intro.play();
 	}
 	
-	@Override
-	public void render(float delta){
-		super.render(delta);
-	}
+
 }

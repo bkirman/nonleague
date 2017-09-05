@@ -12,8 +12,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+
+import uk.ac.lincoln.games.nlfs.ui.GoalParticles;
 
 public class Assets {
 	public static Skin skin;
@@ -32,6 +35,7 @@ public class Assets {
 	private boolean gen_loaded;
 
 	public static Sound click_sfx,swish_sfx,goal_sfx,whistle_sfx,gameend_sfx;
+	public static GoalParticles goal_particles;
 	
 	public Assets() {
 		gen_loaded = false;
@@ -44,6 +48,7 @@ public class Assets {
 		goal_sfx = Gdx.audio.newSound(Gdx.files.internal("goal.mp3"));
 		whistle_sfx = Gdx.audio.newSound(Gdx.files.internal("whistle.wav"));
 		gameend_sfx = Gdx.audio.newSound(Gdx.files.internal("finalwhistle.mp3"));
+		goal_particles = new GoalParticles();
 	}
 
 	/**
@@ -56,6 +61,7 @@ public class Assets {
 		goal_sfx.dispose();
 		whistle_sfx.dispose();
 		gameend_sfx.dispose();
+		goal_particles.dispose();
 	}
 	
 	public boolean isGenLoaded() { return gen_loaded;}
@@ -132,7 +138,7 @@ public class Assets {
 		
 		skin = manager.get("skin.json");//new Skin(Gdx.files.internal("skin.json"),atlas);
 		
-		
+
 		Pixmap pm = new Pixmap(1,1,Format.RGBA8888);
 		pm.setColor(0f, 0.3f, 0f, 0.95f);
 		pm.fill();
