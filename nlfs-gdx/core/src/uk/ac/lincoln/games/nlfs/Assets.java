@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -34,22 +35,17 @@ public class Assets {
 	
 	private boolean gen_loaded;
 
-	public static Sound click_sfx,swish_sfx,goal_sfx,whistle_sfx,gameend_sfx,bg_sfx,ht_sfx;
+//	public static Sound click_sfx;//,swish_sfx,goal_sfx,whistle_sfx,gameend_sfx,bg_sfx,ht_sfx;
 	public static GoalParticles goal_particles;
 	
 	public Assets() {
 		gen_loaded = false;
 		manager = new AssetManager();
+		loadSounds();
 		loadSkin();
+
 		loadRunData();
         Gdx.app.log("ASSETS","Loading audio");
-		click_sfx = Gdx.audio.newSound(Gdx.files.internal("click.wav"));
-		swish_sfx = Gdx.audio.newSound(Gdx.files.internal("swish.wav"));
-		goal_sfx = Gdx.audio.newSound(Gdx.files.internal("goal.mp3"));
-		whistle_sfx = Gdx.audio.newSound(Gdx.files.internal("whistle.wav"));
-		gameend_sfx = Gdx.audio.newSound(Gdx.files.internal("finalwhistle.mp3"));
-        bg_sfx = Gdx.audio.newSound(Gdx.files.internal("bg.mp3"));
-        ht_sfx = Gdx.audio.newSound(Gdx.files.internal("htwhistle.mp3"));
 		goal_particles = new GoalParticles();
 	}
 
@@ -58,14 +54,21 @@ public class Assets {
 	 */
 	public static void dispose() {
 		skin.dispose();
-		click_sfx.dispose();
-		swish_sfx.dispose();
-		goal_sfx.dispose();
-		whistle_sfx.dispose();
-		gameend_sfx.dispose();
-        bg_sfx.dispose();
-        ht_sfx.dispose();
+		manager.dispose();
 		goal_particles.dispose();
+	}
+
+	/**
+	 * sounds fairly time consuming to load. Can be done async during splash/loading screen.
+	 */
+	private void loadSounds() {
+		manager.load("click.wav",Sound.class);
+		manager.load("swish.wav",Sound.class);
+		manager.load("whistle.wav",Sound.class);
+		manager.load("goal.mp3",Sound.class);
+		manager.load("finalwhistle.mp3",Sound.class);
+		manager.load("bg.mp3",Music.class);
+		manager.load("htwhistle.mp3",Sound.class);
 	}
 	
 	public boolean isGenLoaded() { return gen_loaded;}

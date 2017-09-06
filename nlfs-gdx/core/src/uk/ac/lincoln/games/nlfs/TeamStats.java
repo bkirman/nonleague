@@ -1,6 +1,7 @@
 package uk.ac.lincoln.games.nlfs;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
@@ -40,7 +41,7 @@ public class TeamStats extends BaseScreen {
                 return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                Assets.click_sfx.play();
+                Assets.manager.get("click.wav", Sound.class).play(GameState.VOLUME);
                 game.changeScreen(game.teamstatus_screen);
             }});
 

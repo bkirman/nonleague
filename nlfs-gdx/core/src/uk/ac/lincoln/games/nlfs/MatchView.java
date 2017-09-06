@@ -12,6 +12,8 @@ import uk.ac.lincoln.games.nlfs.ui.Tutorial;
 import uk.ac.lincoln.games.nlfs.ui.TutorialWindow;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -47,7 +49,7 @@ public class MatchView extends BaseScreen{
 	private static boolean SKIP_MATCH = false;//debug setting skips slow match report
 	private enum MatchState {PRE,H1,HT,H2,FT};
 	private MatchState current_state;
-	
+	private Music bg_music;
 	/**
 	 * Schedulable task that runs a minute worth of game.
 	 * @author bkirman
@@ -60,11 +62,10 @@ public class MatchView extends BaseScreen{
 			if(current_state==MatchState.H2&&current_minute>match.result.second_half_length) {
 				this.cancel();
 				current_state = MatchState.FT;
-                Assets.bg_sfx.stop();
-				Assets.gameend_sfx.play();
+				Assets.manager.get("finalwhistle.mp3", Sound.class).play(GameState.VOLUME);
 				button.setText("Leave Match");
 				button.setDisabled(false);
-
+				bg_music.stop();
 				event_table.add("Full Time","score_report").colspan(2).center();
 				event_table.row();
 
@@ -75,8 +76,8 @@ public class MatchView extends BaseScreen{
 				this.cancel();
 				current_state = MatchState.HT;
 				button.setText("Second Half");
-                Assets.bg_sfx.stop();
-                Assets.ht_sfx.play();
+				Assets.manager.get("htwhistle.mp3", Sound.class).play(GameState.VOLUME);
+				bg_music.stop();
 				button.setDisabled(false);
 				event_table.add("Half Time","score_report").colspan(2).center();
 				event_table.row();
@@ -94,6 +95,7 @@ public class MatchView extends BaseScreen{
 
 				event_table.row();
 				action_pane.fling(1f, 0f, -500f);
+
 			}
 			else if(current_minute==45&&current_state==MatchState.H2) {
 				Label l;
@@ -104,6 +106,7 @@ public class MatchView extends BaseScreen{
 
 				event_table.row();
 				action_pane.fling(1f, 0f, -500f);
+
 			}
 
 			if(current_state==MatchState.H1) {//set clock display
@@ -134,7 +137,9 @@ public class MatchView extends BaseScreen{
 					Label l = new Label(me.getDescription(),Assets.skin);
 					l.setWrap(true);
 					event_table.add(l).left().expandX().width(550);
-					if(me.type== MatchEvent.MatchEventType.YELLOWCARD) Assets.whistle_sfx.play();
+					if(me.type== MatchEvent.MatchEventType.YELLOWCARD) {
+						Assets.manager.get("whistle.wav", Sound.class).play(GameState.VOLUME);
+					}
 
 					event_table.row();
 					action_pane.fling(1f, 0f, -500f);
@@ -161,8 +166,10 @@ public class MatchView extends BaseScreen{
 					}
 					TeamLabel l = new TeamLabel(g.scorer.team,"teamname");
 					l.setText(" GOAL for "+g.scorer.team.name.toUpperCase()+" ");
-					Assets.goal_sfx.play();
-                    Assets.goal_particles.setParent(g.scorer.team);
+					Assets.manager.get("goal.mp3", Sound.class).play(GameState.VOLUME);
+
+
+					Assets.goal_particles.setParent(g.scorer.team);
                     stage.addActor(Assets.goal_particles);
 
 					//add text
@@ -241,13 +248,13 @@ public class MatchView extends BaseScreen{
             	return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int b2) {
-				Assets.click_sfx.play();
+				Assets.manager.get("click.wav", Sound.class).play(GameState.VOLUME);
 				if(current_state == MatchState.PRE || current_state == MatchState.HT) {
 
 					button.setDisabled(true);
 					button.setText("Please Wait");
 					Timer.schedule(new RunMinute(), SIMULATION_S_PER_MIN, SIMULATION_S_PER_MIN);
-                    Assets.bg_sfx.play(0.35f);
+					bg_music.play();
 					if(current_state==MatchState.PRE)
 						current_state = MatchState.H1;
 					else
@@ -271,7 +278,8 @@ public class MatchView extends BaseScreen{
 		current_away = 0;
 		match = GameState.league.findTeamsNextFixture(GameState.player_team);
 		GameState.league.playWeek();
-		
+		bg_music = Assets.manager.get("bg.mp3",Music.class);
+		bg_music.setVolume(0.2f*GameState.VOLUME);
 		goals = new ArrayList<Goal>();
 		goals.addAll(match.result.home_goals);
 		goals.addAll(match.result.away_goals);
@@ -301,7 +309,4 @@ public class MatchView extends BaseScreen{
 			current_state = MatchState.FT;
 		}
 	}
-
-
-	
 }

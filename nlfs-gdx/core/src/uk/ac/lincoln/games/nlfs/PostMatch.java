@@ -7,6 +7,7 @@ import uk.ac.lincoln.games.nlfs.ui.Tutorial;
 import uk.ac.lincoln.games.nlfs.ui.TutorialWindow;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -66,8 +67,8 @@ public class PostMatch extends BaseScreen {
             	return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-				Assets.click_sfx.play();
-            	if(GameState.league.isSeasonFinished())
+				Assets.manager.get("click.wav", Sound.class).play(GameState.VOLUME);
+				if(GameState.league.isSeasonFinished())
             		game.changeScreen(game.endofseason_screen);
             	else
             		game.changeScreen(game.teamstatus_screen);

@@ -1,8 +1,10 @@
 package uk.ac.lincoln.games.nlfs.ui;
 
 import uk.ac.lincoln.games.nlfs.Assets;
+import uk.ac.lincoln.games.nlfs.logic.GameState;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
@@ -54,7 +56,8 @@ public class TutorialWindow extends Actor {
 
 	        addListener(new InputListener(){
                 public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-					Assets.click_sfx.play();
+					Assets.manager.get("click.wav", Sound.class).play(GameState.VOLUME);
+
 					remove();
                 	return true;
                 }
@@ -69,7 +72,7 @@ public class TutorialWindow extends Actor {
 
 				this.setPosition((this.getStage().getViewport().getWorldWidth() / 2) - _width / 2,1500);
 				this.addAction(Actions.moveTo(this.getX(), (this.getStage().getViewport().getWorldHeight() / 2) - _height / 2, 0.2f));
-				Assets.swish_sfx.play();
+				Assets.manager.get("swish.wav", Sound.class).play(GameState.VOLUME);
 				setup=true;
 			}
 		}
