@@ -7,6 +7,7 @@ import uk.ac.lincoln.games.nlfs.logic.GameState;
 import uk.ac.lincoln.games.nlfs.logic.Goal;
 import uk.ac.lincoln.games.nlfs.logic.Match;
 import uk.ac.lincoln.games.nlfs.logic.MatchEvent;
+import uk.ac.lincoln.games.nlfs.ui.Settings;
 import uk.ac.lincoln.games.nlfs.ui.TeamLabel;
 import uk.ac.lincoln.games.nlfs.ui.Tutorial;
 import uk.ac.lincoln.games.nlfs.ui.TutorialWindow;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -50,6 +52,7 @@ public class MatchView extends BaseScreen{
 	private enum MatchState {PRE,H1,HT,H2,FT};
 	private MatchState current_state;
 	private Music bg_music;
+
 	/**
 	 * Schedulable task that runs a minute worth of game.
 	 * @author bkirman
@@ -62,7 +65,7 @@ public class MatchView extends BaseScreen{
 			if(current_state==MatchState.H2&&current_minute>match.result.second_half_length) {
 				this.cancel();
 				current_state = MatchState.FT;
-				Assets.manager.get("finalwhistle.mp3", Sound.class).play(GameState.VOLUME);
+				Assets.manager.get("finalwhistle.mp3", Sound.class).play(GameState.getVol());
 				button.setText("Leave Match");
 				button.setDisabled(false);
 				bg_music.stop();
@@ -76,7 +79,7 @@ public class MatchView extends BaseScreen{
 				this.cancel();
 				current_state = MatchState.HT;
 				button.setText("Second Half");
-				Assets.manager.get("htwhistle.mp3", Sound.class).play(GameState.VOLUME);
+				Assets.manager.get("htwhistle.mp3", Sound.class).play(GameState.getVol());
 				bg_music.stop();
 				button.setDisabled(false);
 				event_table.add("Half Time","score_report").colspan(2).center();
@@ -138,7 +141,7 @@ public class MatchView extends BaseScreen{
 					l.setWrap(true);
 					event_table.add(l).left().expandX().width(550);
 					if(me.type== MatchEvent.MatchEventType.YELLOWCARD) {
-						Assets.manager.get("whistle.wav", Sound.class).play(GameState.VOLUME);
+						Assets.manager.get("whistle.wav", Sound.class).play(GameState.getVol());
 					}
 
 					event_table.row();
@@ -166,7 +169,7 @@ public class MatchView extends BaseScreen{
 					}
 					TeamLabel l = new TeamLabel(g.scorer.team,"teamname");
 					l.setText(" GOAL for "+g.scorer.team.name.toUpperCase()+" ");
-					Assets.manager.get("goal.mp3", Sound.class).play(GameState.VOLUME);
+					Assets.manager.get("goal.mp3", Sound.class).play(GameState.getVol());
 
 
 					Assets.goal_particles.setParent(g.scorer.team);
@@ -248,7 +251,7 @@ public class MatchView extends BaseScreen{
             	return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int b2) {
-				Assets.manager.get("click.wav", Sound.class).play(GameState.VOLUME);
+				Assets.manager.get("click.wav", Sound.class).play(GameState.getVol());
 				if(current_state == MatchState.PRE || current_state == MatchState.HT) {
 
 					button.setDisabled(true);
@@ -279,7 +282,7 @@ public class MatchView extends BaseScreen{
 		match = GameState.league.findTeamsNextFixture(GameState.player_team);
 		GameState.league.playWeek();
 		bg_music = Assets.manager.get("bg.mp3",Music.class);
-		bg_music.setVolume(0.2f*GameState.VOLUME);
+		bg_music.setVolume(0.2f*GameState.getVol());
 		goals = new ArrayList<Goal>();
 		goals.addAll(match.result.home_goals);
 		goals.addAll(match.result.away_goals);

@@ -6,70 +6,70 @@ filter: Nearest,Nearest
 repeat: none
 anorak
   rotate: false
-  xy: 798, 158
+  xy: 1386, 60
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 barm
   rotate: false
-  xy: 700, 158
+  xy: 798, 60
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 base
   rotate: false
-  xy: 504, 57
+  xy: 260, 51
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 beer
   rotate: false
-  xy: 504, 158
+  xy: 1190, 158
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 bg_fill
   rotate: false
-  xy: 1484, 86
+  xy: 1536, 148
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 bovril
   rotate: false
-  xy: 1386, 60
+  xy: 1092, 158
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 boy
   rotate: false
-  xy: 1190, 158
+  xy: 700, 60
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 brolly
   rotate: false
-  xy: 1092, 158
+  xy: 1386, 158
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 burger
   rotate: false
-  xy: 602, 60
+  xy: 1288, 60
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 button_patch
   rotate: false
-  xy: 2, 2
+  xy: 158, 2
   size: 50, 50
   split: 7, 9, 8, 10
   orig: 50, 50
@@ -85,7 +85,7 @@ button_patch_disabled
   index: -1
 button_patch_down
   rotate: false
-  xy: 54, 2
+  xy: 2, 2
   size: 50, 50
   split: 7, 8, 8, 8
   orig: 50, 50
@@ -93,35 +93,35 @@ button_patch_down
   index: -1
 chest
   rotate: false
-  xy: 1288, 60
+  xy: 994, 158
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 chips
   rotate: false
-  xy: 994, 60
+  xy: 700, 158
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 darken
   rotate: false
-  xy: 1536, 155
+  xy: 504, 57
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 dog
   rotate: false
-  xy: 1288, 158
+  xy: 602, 158
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 help
   rotate: false
-  xy: 1582, 205
+  xy: 210, 3
   size: 48, 49
   orig: 48, 49
   offset: 0, 0
@@ -135,14 +135,14 @@ lager
   index: -1
 none
   rotate: false
-  xy: 700, 60
+  xy: 602, 60
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 pants
   rotate: false
-  xy: 896, 158
+  xy: 504, 158
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
@@ -156,44 +156,65 @@ paper
   index: -1
 particle
   rotate: false
-  xy: 158, 20
+  xy: 1484, 62
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 pie
   rotate: false
-  xy: 1484, 158
+  xy: 1092, 60
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 pop
   rotate: false
-  xy: 602, 158
+  xy: 1288, 158
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 sandwich
   rotate: false
-  xy: 798, 60
+  xy: 1484, 158
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 scarf
   rotate: false
-  xy: 1386, 158
+  xy: 994, 60
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
+settings
+  rotate: false
+  xy: 54, 2
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
 shirt
   rotate: false
-  xy: 1092, 60
+  xy: 798, 158
   size: 96, 96
   orig: 96, 96
+  offset: 0, 0
+  index: -1
+slider
+  rotate: false
+  xy: 1582, 188
+  size: 52, 12
+  orig: 52, 12
+  offset: 0, 0
+  index: -1
+slider-knob
+  rotate: false
+  xy: 1582, 202
+  size: 52, 52
+  orig: 52, 52
   offset: 0, 0
   index: -1
 stopwatch
@@ -205,28 +226,28 @@ stopwatch
   index: -1
 tea
   rotate: false
-  xy: 504, 60
+  xy: 1190, 60
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 transparent
   rotate: false
-  xy: 1582, 202
+  xy: 1636, 253
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 tuba
   rotate: false
-  xy: 994, 158
+  xy: 504, 60
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 vuvuzela
   rotate: false
-  xy: 1190, 60
+  xy: 896, 158
   size: 96, 96
   orig: 96, 96
   offset: 0, 0

@@ -29,6 +29,7 @@ public class NonLeague extends Game {
 	public EndOfSeason endofseason_screen;
 	public SplashScreen splash_screen;
 	public TeamStats stats_screen;
+	public ChangeSettings settings_screen;
 	/**
 	 * Actor for background texture. Needs to be here so abstract basescreen can find it (I know)
 	 * @author bkirman
@@ -68,6 +69,7 @@ public class NonLeague extends Game {
 		endofseason_screen = new EndOfSeason(this);
 		splash_screen = new SplashScreen(this);
 		stats_screen = new TeamStats(this);
+		settings_screen = new ChangeSettings(this);
 		//start app flow
 
 		this.changeScreen(splash_screen);

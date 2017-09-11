@@ -2,6 +2,7 @@ package uk.ac.lincoln.games.nlfs;
 
 import uk.ac.lincoln.games.nlfs.logic.GameState;
 import uk.ac.lincoln.games.nlfs.ui.LeaguePositionGraph;
+import uk.ac.lincoln.games.nlfs.ui.Settings;
 import uk.ac.lincoln.games.nlfs.ui.TeamLabel;
 import uk.ac.lincoln.games.nlfs.ui.Tutorial;
 import com.badlogic.gdx.Gdx;
@@ -84,13 +85,17 @@ public class TeamStatus extends BaseScreen {
 		stage.addActor(tut);
 
 
+		Settings set = new Settings(game);
+		set.setPosition(6,6);
+		stage.addActor(set);
+
 		
 		button.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
             	return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-				Assets.manager.get("click.wav", Sound.class).play(GameState.VOLUME);
+				Assets.manager.get("click.wav", Sound.class).play(GameState.getVol());
 				game.changeScreen(game.prematch_screen);
 			}});
 		lgbutton.addListener(new InputListener() {
@@ -98,7 +103,7 @@ public class TeamStatus extends BaseScreen {
             	return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-				Assets.manager.get("click.wav", Sound.class).play(GameState.VOLUME);
+				Assets.manager.get("click.wav", Sound.class).play(GameState.getVol());
 				game.changeScreen(game.leaguetable_screen);
 			}});
 		statsbutton.addListener(new InputListener() {
@@ -106,7 +111,7 @@ public class TeamStatus extends BaseScreen {
 				return true;
 			}
 			public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-				Assets.manager.get("click.wav", Sound.class).play(GameState.VOLUME);
+				Assets.manager.get("click.wav", Sound.class).play(GameState.getVol());
 				game.changeScreen(game.stats_screen);
 			}});
 	}

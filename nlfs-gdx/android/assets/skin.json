@@ -49,4 +49,7 @@
      com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {  
       default: { up: button_patch, down: button_patch_down, checked: button_patch, disabled: button_patch_disabled, font: tgl_60, fontColor: white },  
      },
-}  
+	com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
+	default: { checkboxOff: button_patch, checkboxOn: button_patch_down, font: tgl_60, fontColor: white },
+	}
+}

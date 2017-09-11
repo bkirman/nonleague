@@ -94,7 +94,7 @@ public class SplashScreen extends BaseScreen {
 
 	}
 	public void update(){
-		intro.play(GameState.VOLUME);
+		intro.play(GameState.getVol());
 	}
 	
 

@@ -56,7 +56,7 @@ public class TutorialWindow extends Actor {
 
 	        addListener(new InputListener(){
                 public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-					Assets.manager.get("click.wav", Sound.class).play(GameState.VOLUME);
+					Assets.manager.get("click.wav", Sound.class).play(GameState.getVol());
 
 					remove();
                 	return true;
@@ -72,7 +72,7 @@ public class TutorialWindow extends Actor {
 
 				this.setPosition((this.getStage().getViewport().getWorldWidth() / 2) - _width / 2,1500);
 				this.addAction(Actions.moveTo(this.getX(), (this.getStage().getViewport().getWorldHeight() / 2) - _height / 2, 0.2f));
-				Assets.manager.get("swish.wav", Sound.class).play(GameState.VOLUME);
+				Assets.manager.get("swish.wav", Sound.class).play(GameState.getVol());
 				setup=true;
 			}
 		}

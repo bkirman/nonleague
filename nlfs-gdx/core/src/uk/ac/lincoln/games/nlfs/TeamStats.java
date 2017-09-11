@@ -41,7 +41,7 @@ public class TeamStats extends BaseScreen {
                 return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                Assets.manager.get("click.wav", Sound.class).play(GameState.VOLUME);
+                Assets.manager.get("click.wav", Sound.class).play(GameState.getVol());
                 game.changeScreen(game.teamstatus_screen);
             }});
 

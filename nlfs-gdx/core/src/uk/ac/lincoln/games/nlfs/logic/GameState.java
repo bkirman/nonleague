@@ -2,6 +2,7 @@ package uk.ac.lincoln.games.nlfs.logic;
 
 import java.util.Random;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
@@ -24,12 +25,10 @@ public class GameState {
 	public static Random rand; //this is seeded to be always the same - used for generation
 	public static Random rand2; //this is NOT seeded, used for match engine.
 	public static String SAVEFILE = "nlfs.dat";
-	public static float VOLUME; //current volume
 	private static boolean enable_saving = true; //all should be true for normal operation
 	private static boolean enable_b64_savefile = true;//NB existing saves will be made invalid when changing this setting
 	private static boolean enable_seed = true; //enable or disable fixed seeds based on hardware
-	
-	public static boolean first_run = false;//show the tutorial
+
 	
 	public static GameState getGameState(long seed) {
 		
@@ -45,22 +44,22 @@ public class GameState {
 		}
 		return state;
 	}
-	
+	public static float getVol() {return league.SETTINGS.VOLUME;}
+
 	public GameState(long seed) {
 		assets = new Assets();
 		if(enable_seed && seed != 0)	rand = new Random(seed);
 		else rand = new Random();
 		rand2 = new Random();
-		VOLUME = 0.7f; //TODO: should be saved in savefile
 		//Try to load game from storage. If none exists create a new league
 		if(!this.loadGame()) {
 			Gdx.app.log("Start","no savefile found, creating new league");
-			first_run = true;//show tutorial by default
 			league = new League(assets);
 			player_team = league.teams.get(rand.nextInt(league.teams.size()));//randomly select a player team
 			player_team.setPlayerControlled(true);
 		} else {
 			Gdx.app.log("Start","Savefile found, loaded league");
+			GameState.league.SETTINGS.FIRST_RUN = false;
 			//find player team
 			for(Team t:league.teams) {
 				if(t.isPlayerControlled()) {

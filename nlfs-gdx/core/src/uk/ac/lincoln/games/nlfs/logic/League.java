@@ -28,6 +28,7 @@ public class League {
 	public ArrayList<MatchResult> weekly_results;
 	public ArrayList<LeagueTableItem> table;
 	public String name;
+	public SettingsContainer SETTINGS;
 	public static int POINTS_WIN = 3;
 	public static int POINTS_DRAW = 1;
 	public static int POINTS_LOSE = 0;
@@ -47,6 +48,7 @@ public class League {
 		fixtures = new ArrayList<Match>();
 		weekly_results = new ArrayList<MatchResult>();
 		name=generateName();
+		SETTINGS = new SettingsContainer();
 		//Generate teams
 		for(int i=0;i<LEAGUE_SIZE;i++) {
 			teams.add(new Team(assets,this));
