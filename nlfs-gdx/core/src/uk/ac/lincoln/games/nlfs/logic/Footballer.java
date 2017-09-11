@@ -3,7 +3,7 @@ package uk.ac.lincoln.games.nlfs.logic;
 import java.util.Random;
 import uk.ac.lincoln.games.nlfs.Assets;
 
-public class Footballer {
+public class Footballer implements Comparable<Footballer>{
 	private String first_name, surname;
 	private int age;
 	private int goals_this_season;
@@ -13,16 +13,15 @@ public class Footballer {
 	
 	/**
 	 * Generate a random new Footballer, of given position.
-	 * @param assets
 	 * @param pos
 	 */
-	public Footballer(Assets assets, Team team, Position pos){
+	public Footballer(Team team, Position pos){
 		position = pos;
 		this.team = team;
 		goals_this_season = 0;
 		do{
-		first_name = assets.first_names.get(GameState.rand.nextInt(assets.first_names.size()));
-		surname = assets.surnames.get(GameState.rand.nextInt(assets.surnames.size()));
+		first_name = Assets.first_names.get(GameState.rand.nextInt(Assets.first_names.size()));
+		surname = Assets.surnames.get(GameState.rand.nextInt(Assets.surnames.size()));
 		}while(team.footballerNameInUse(getName()));
 		age = GameState.rand.nextInt(25)+15;
 		if(pos==Position.MGR) age = age+20;//older managers
@@ -35,6 +34,7 @@ public class Footballer {
 	public void setPostion(Position newPos){ position = newPos;}
 	
 	public int getAge(){ return age; }
+	public void setAge(int a) {age = a;}
 
 	public int getGoals(){return goals_this_season;}
 	public void addGoal(){goals_this_season++;}
@@ -56,5 +56,7 @@ public class Footballer {
 	public String getSurname(){ return surname; }
 	
 	public String getName() { return first_name+" "+surname; }
+
+	public int compareTo(Footballer f) { return f.goals_this_season - this.goals_this_season;}
 
 }

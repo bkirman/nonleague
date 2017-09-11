@@ -33,9 +33,9 @@ public class League {
 	public static int POINTS_DRAW = 1;
 	public static int POINTS_LOSE = 0;
 	
-	public static int LEAGUE_SIZE = 12; //number of teams in the league. Even numbers only, dickhead.
-	public static int PROMOTION = 2; //number of teams promoted/relegated at the end of the season. (promotion + relegation) < league size, dickhead.
-	public static int RELEGATION = 2;
+	public static int LEAGUE_SIZE = 4; //number of teams in the league. Even numbers only, otherwise round robin won't work properly
+	public static int PROMOTION = 1; //number of teams promoted/relegated at the end of the season. (promotion + relegation) < league size, dickhead.
+	public static int RELEGATION = 1;
 	
 	/**
 	 * The constructor is used to randomly generate an entire league. This is fairly intense so might need a loading screen
@@ -90,8 +90,8 @@ public class League {
 		}
 		
 		teams.clear();
-		fixtures.clear(); 
-		
+		fixtures.clear();
+		if(!GameState.assets.isGenLoaded()) GameState.assets.loadGenData();//load data files into memory for team/league generation
 		if (is_promoted) {
 			teams.addAll(promoted_teams);
 			this.name = generateName();
@@ -107,7 +107,7 @@ public class League {
 		for(Team t:teams) {
 			for(Footballer f:t.footballers) f.resetGoals();
 		}
-		if(!GameState.assets.isGenLoaded()) GameState.assets.loadGenData();//load data files into memory for team generation
+
 		//fill rest of league with teams
 		for(int i=teams.size();i<LEAGUE_SIZE;i++) {
 			teams.add(new Team(GameState.assets,this));//presuming the gamestate object is not currently being constructed (i.e. application starting up) (this would crash the game).
@@ -117,10 +117,11 @@ public class League {
 		fixtures = generateFixtures(teams);
 		current_week = 1;
 		//final_week = 2*(LEAGUE_SIZE-1);
-		resetLeagueTable(); 
-		//for (Team t:teams) System.out.println(t.name);
-		//for (Match m:fixtures) System.out.println(m.getDescription());
+		resetLeagueTable();
+
 	}
+
+
 	
 	/**
 	 * Generates and returns an ordered list of fixtures generated for the given teams using a double round robin algorithm.
@@ -174,18 +175,17 @@ public class League {
 		Gdx.app.log("SIM","Playing week");
 		MatchResult mr;
 		weekly_results.clear();
-		//try {
-			while(nextFixture().week==current_week) {
-				mr = nextFixture().run();
-				weekly_results.add(mr);
-				Gdx.app.log("SIM","Simmed "+mr.match.home.name+" vs "+mr.match.away.name);
-				addResult(mr);//add to league calcs
-			}
-		//}
-		//catch(NullPointerException e) {
-			//end of season, no more results to add. 
-		//	System.out.println("End of Season");
-		//}
+
+
+		while(nextFixture().week==current_week) {
+			mr = nextFixture().run();
+			weekly_results.add(mr);
+			Gdx.app.log("SIM","Simmed "+mr.match.home.name+" vs "+mr.match.away.name);
+			addResult(mr);//add to league calcs
+			//break if run out of fixtures
+			if(nextFixture()==null) break;
+		}
+
 		current_week++;
 		//update weekly positions
 		int i=1;
@@ -194,6 +194,9 @@ public class League {
 			i++;
 		}
 		GameState.getGameState(0).saveGame();//save game after each week
+		if(nextFixture()==null) {
+			Gdx.app.log("PLAYWEEK","END OF SEASON");
+		}
 	}
 	
 	public boolean isSeasonFinished() {

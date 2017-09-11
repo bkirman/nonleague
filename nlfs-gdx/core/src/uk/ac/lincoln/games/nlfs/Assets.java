@@ -21,19 +21,19 @@ import uk.ac.lincoln.games.nlfs.ui.GoalParticles;
 
 public class Assets {
 	public static Skin skin;
-	public ArrayList<String> team_names;
-	public ArrayList<String> town_names;
-	public ArrayList<String> first_names;
-	public ArrayList<String> surnames;
-	public ArrayList<String> stadium_names;
-	public ArrayList<String> road_names;
-	public ArrayList<String> league_prefices,league_suffices;
-	public ArrayList<ArrayList<String>> team_colours;
+	public static ArrayList<String> team_names;
+	public static ArrayList<String> town_names;
+	public static ArrayList<String> first_names;
+	public static ArrayList<String> surnames;
+	public static ArrayList<String> stadium_names;
+	public static ArrayList<String> road_names;
+	public static ArrayList<String> league_prefices,league_suffices;
+	public static ArrayList<ArrayList<String>> team_colours;
 	public static HashMap<String,ArrayList<String>> news_summaries;
 	
 	public static AssetManager manager;
 	
-	private boolean gen_loaded;
+	private static boolean gen_loaded;
 
 //	public static Sound click_sfx;//,swish_sfx,goal_sfx,whistle_sfx,gameend_sfx,bg_sfx,ht_sfx;
 	public static GoalParticles goal_particles;
@@ -41,11 +41,15 @@ public class Assets {
 	public Assets() {
 		gen_loaded = false;
 		manager = new AssetManager();
+		Gdx.app.log("ASSETS","Loading audio");
 		loadSounds();
+		Gdx.app.log("ASSETS","Loading skin");
 		loadSkin();
-
+		Gdx.app.log("ASSETS","Loading run data");
 		loadRunData();
-        Gdx.app.log("ASSETS","Loading audio");
+		Gdx.app.log("ASSETS","Loading gen data");
+		loadGenData();
+		Gdx.app.log("ASSETS","Generating particle emitters");
 		goal_particles = new GoalParticles();
 	}
 

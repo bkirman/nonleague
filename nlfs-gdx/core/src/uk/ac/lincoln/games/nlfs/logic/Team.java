@@ -1,6 +1,9 @@
 package uk.ac.lincoln.games.nlfs.logic;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import uk.ac.lincoln.games.nlfs.Assets;
@@ -55,34 +58,34 @@ public class Team {
 		
 		//generate players (4-4-2 is the only formation used in real non-league football. Hard coded for realism.)
 		footballers = new ArrayList<Footballer>();
-		manager = new Footballer(assets,this,Position.MGR);
+		manager = new Footballer(this,Position.MGR);
 		footballers.add(manager);
 		goalkeepers = new ArrayList<Footballer>();
-		Footballer player = new Footballer(assets,this,Position.GK); 
+		Footballer player = new Footballer(this,Position.GK);
 		footballers.add(player);
 		goalkeepers.add(player);
 		
 		defenders = new ArrayList<Footballer>();
 		for(int i=0;i<4;i++) {
-			player = new Footballer(assets,this,Position.DF);
+			player = new Footballer(this,Position.DF);
 			footballers.add(player);
 			defenders.add(player);
 		}
 		midfielders = new ArrayList<Footballer>();
 		for(int i=0;i<4;i++) {
-			player = new Footballer(assets,this,Position.MF);
+			player = new Footballer(this,Position.MF);
 			footballers.add(player);
 			midfielders.add(player);
 		}
 		strikers = new ArrayList<Footballer>();
 		for(int i=0;i<2;i++) {
-			player = new Footballer(assets,this,Position.ST);
+			player = new Footballer(this,Position.ST);
 			footballers.add(player);
 			strikers.add(player);
 		}
 		substitutes = new ArrayList<Footballer>();
 		for(int i=0;i<6;i++) {
-			player = new Footballer(assets,this,Position.SUB);
+			player = new Footballer(this,Position.SUB);
 			footballers.add(player);
 			substitutes.add(player);
 		}
@@ -110,6 +113,18 @@ public class Team {
 		if(position==Position.MGR) return manager;
 		return midfielders.get(GameState.rand.nextInt(midfielders.size()));
 	}
+
+    /**
+     * Random PLAYER (i.e. not manager)
+     * @return
+     */
+	private Footballer getRandomPlayer() {
+        Footballer f;
+        do {
+            f = footballers.get(GameState.rand2.nextInt(footballers.size()));
+        }while(f.getPosition()==Position.MGR);
+        return f;
+	}
 	
 	public int countUnplayedMatches() {
 		int i = 0;
@@ -125,6 +140,106 @@ public class Team {
 		}
 		return false;
 	}
+
+	public List<Footballer> getTopScorers(int n) {
+		ArrayList<Footballer> out = (ArrayList<Footballer>)footballers.clone();
+		Collections.sort(out);
+		return out.subList(0,n);
+	}
+
+	public void agePlayers(){
+        for(Footballer f: footballers) f.setAge(f.getAge()+1);
+    }
+
+    public void removeFromTeam(Footballer f) {
+        substitutes.remove(f);
+        midfielders.remove(f);
+        defenders.remove(f);
+        strikers.remove(f);
+        goalkeepers.remove(f);
+        if(f==manager) manager = null;
+        footballers.remove(f);
+    }
+
+    /**
+     * Work out randomly if players retire/transfer
+     * @return a list of string descriptions of what happened
+     */
+    public ArrayList<String> transferOut() {
+        ArrayList<String> out = new ArrayList<String>();
+
+        //retiring of old age
+        ArrayList<Footballer> fs = new ArrayList<Footballer>();
+        fs.addAll(footballers);
+        for (Footballer f:fs) {
+            if(f.getAge()>=35 && f.getPosition()!=Position.MGR){
+                if(GameState.rand2.nextInt(50-f.getAge())==0) {
+                    out.add(f.getName()+" ("+f.getPosition()+") retires at "+String.valueOf(f.getAge()));
+                    removeFromTeam(f);
+                }
+            }
+        }
+        //manager retirement
+        if(GameState.rand2.nextInt(70-manager.getAge())==0) {
+            out.add("Team manager "+manager.getName() + " retires");
+            removeFromTeam(manager);
+        }
+        //transfers
+        int tfrs = GameState.rand2.nextInt(3);
+        Footballer f;
+        for(int i=0;i<=tfrs;i++) {
+            f = getRandomPlayer();
+            out.add(f.getName()+" ("+f.getPosition()+") transfers away");
+            removeFromTeam(f);
+        }
+        return out;
+    }
+
+    /**
+     * Fill the team with all positions missing
+     * @return list of string descriptions of what happened
+     */
+    public ArrayList<String> transferIn() {
+        ArrayList<String> out = new ArrayList<String>();
+        if(manager==null) {
+            manager = new Footballer(this, Position.MGR);
+            footballers.add(manager);
+            out.add(manager.getName()+" joins as manager");
+        }
+        Footballer p;
+        while(substitutes.size()<6) {
+            p = new Footballer(this,Position.SUB);
+            footballers.add(p);
+            substitutes.add(p);
+            out.add(p.getName()+ " joins on the bench");
+        }
+        while(defenders.size()<4) {
+            p = new Footballer(this,Position.DF);
+            footballers.add(p);
+            defenders.add(p);
+            out.add(p.getName()+ " joins as defender");
+        }
+        while(midfielders.size()<4) {
+            p = new Footballer(this,Position.MF);
+            footballers.add(p);
+            midfielders.add(p);
+            out.add(p.getName()+ " joins the midfielders");
+        }
+        while(strikers.size()<2) {
+            p = new Footballer(this,Position.ST);
+            footballers.add(p);
+            strikers.add(p);
+            out.add(p.getName()+ " joins as striker");
+        }
+        if(goalkeepers.size()<1){
+            p = new Footballer(this,Position.GK);
+            footballers.add(p);
+            goalkeepers.add(p);
+            out.add(p.getName()+ " joins as goalie");
+        }
+        return out;
+
+    }
 	
 	/**
 	 * Reset transient pointers

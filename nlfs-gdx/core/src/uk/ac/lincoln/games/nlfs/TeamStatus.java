@@ -25,7 +25,7 @@ public class TeamStatus extends BaseScreen {
 	//private Image position_graph;
 	private Table position_table;
 	private TeamLabel team_label,next_opponent_label;
-	private Label league_pos_label,unplayed_label,stadium_label,home_away_label,forecast_label, opp_pos_label;
+	private Label league_pos_label,unplayed_label,home_away_label,forecast_label, opp_pos_label;
 	private Tutorial tut;
 	
 	public TeamStatus(final NonLeague game) {
@@ -37,14 +37,11 @@ public class TeamStatus extends BaseScreen {
 		league_pos_label = new Label("X",Assets.skin);
 		unplayed_label = new Label("X",Assets.skin);
 		home_away_label = new Label("X",Assets.skin,"default");
-		stadium_label = new Label(GameState.player_team.stadium,Assets.skin,"default_small");
 		forecast_label = new Label("X",Assets.skin);
 		opp_pos_label = new Label("X",Assets.skin);
 		position_table = new Table();
 		
 		table.add(team_label).fillX().expandX().center().colspan(2);
-		table.row();
-		table.add(stadium_label).right().colspan(2);
 		table.row();
 		table.add(league_pos_label).left().colspan(2);
 		table.row();
@@ -64,8 +61,8 @@ public class TeamStatus extends BaseScreen {
 		table.add(forecast_label).left();
 		table.row();
 
-
-		table.add(position_table).colspan(2).expand();
+		table.add("Position History:").left().colspan(2);table.row();
+		table.add(position_table).colspan(2).minHeight(42).expand();
 		table.row();
 
 		TextButton lgbutton = new TextButton("League Table", Assets.skin);
