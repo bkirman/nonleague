@@ -24,7 +24,7 @@ public abstract class LeaguePositionGraph {
 	public static int HEIGHT = 40;
 	
 	public static Texture generateLeaguePositionGraph(ArrayList<Integer> position_history) {
-		Pixmap pixmap = new Pixmap(WIDTH,HEIGHT,Format.RGBA8888);
+		Pixmap pixmap = new Pixmap(WIDTH,HEIGHT+2,Format.RGBA8888);
 		
 		int unit_h = HEIGHT/ League.LEAGUE_SIZE; 
 		int unit_w = WIDTH / (2*(League.LEAGUE_SIZE-1));//number of weeks

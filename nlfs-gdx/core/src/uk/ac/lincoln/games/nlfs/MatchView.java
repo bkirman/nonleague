@@ -48,7 +48,7 @@ public class MatchView extends BaseScreen{
 	private ArrayList<Goal> goals;
 	private int current_minute, current_home, current_away,total_minutes; //current_minute IN this half total_minutes PLAYED this match
 	public static float SIMULATION_S_PER_MIN = 0.3f;//lower this is, faster the simulation gets (0.3f is about right)
-	private static boolean SKIP_MATCH = true;//debug setting skips slow match report
+	private static boolean SKIP_MATCH = false;//debug setting skips slow match report
 	private enum MatchState {PRE,H1,HT,H2,FT};
 	private MatchState current_state;
 	private Music bg_music;

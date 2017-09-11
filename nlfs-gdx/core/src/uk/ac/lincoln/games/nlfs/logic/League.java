@@ -33,9 +33,9 @@ public class League {
 	public static int POINTS_DRAW = 1;
 	public static int POINTS_LOSE = 0;
 	
-	public static int LEAGUE_SIZE = 4; //number of teams in the league. Even numbers only, otherwise round robin won't work properly
-	public static int PROMOTION = 1; //number of teams promoted/relegated at the end of the season. (promotion + relegation) < league size, dickhead.
-	public static int RELEGATION = 1;
+	public static int LEAGUE_SIZE = 8; //number of teams in the league. Even numbers only, otherwise round robin won't work properly
+	public static int PROMOTION = 2; //number of teams promoted/relegated at the end of the season. (promotion + relegation) < league size, dickhead.
+	public static int RELEGATION = 2;
 	
 	/**
 	 * The constructor is used to randomly generate an entire league. This is fairly intense so might need a loading screen
