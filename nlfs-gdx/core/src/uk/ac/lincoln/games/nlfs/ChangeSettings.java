@@ -53,6 +53,10 @@ public class ChangeSettings extends BaseScreen {
         table.row();
         table.add("Share anonymous stats for research").left();
         table.add(stats);
+        table.row().padTop(10);
+        table.add("Debug Info:").left();
+        table.add("v:"+GameState.VERSION+", "+"id:"+GameState.DEVICE_ID).right().colspan(2);
+
         table.row().padTop(5);
 
         TextButton backbutton = new TextButton("Next Match", Assets.skin);

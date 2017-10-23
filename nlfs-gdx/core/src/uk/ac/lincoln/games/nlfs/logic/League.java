@@ -33,7 +33,7 @@ public class League {
 	public static int POINTS_DRAW = 1;
 	public static int POINTS_LOSE = 0;
 	
-	public static int LEAGUE_SIZE = 8; //number of teams in the league. Even numbers only, otherwise round robin won't work properly
+	public static int LEAGUE_SIZE = 12; //number of teams in the league. Even numbers only, otherwise round robin won't work properly
 	public static int PROMOTION = 2; //number of teams promoted/relegated at the end of the season. (promotion + relegation) < league size, dickhead.
 	public static int RELEGATION = 2;
 	
@@ -193,7 +193,7 @@ public class League {
 			lti.addWeeklyPosition(i);
 			i++;
 		}
-		GameState.getGameState(0).saveGame();//save game after each week
+		GameState.getGameState("").saveGame();//save game after each week
 		if(nextFixture()==null) {
 			Gdx.app.log("PLAYWEEK","END OF SEASON");
 		}

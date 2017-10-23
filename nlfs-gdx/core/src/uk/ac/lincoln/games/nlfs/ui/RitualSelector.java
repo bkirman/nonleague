@@ -83,6 +83,14 @@ public class RitualSelector {
 			else r.setChecked(false);
 		}
 	}
+
+	/**
+	 * Return icon name of selected button
+	 * @return
+	 */
+	public String getSelected() {
+		return ((RitualButton) bg.getChecked()).icon;
+	}
 	
 	public Table getActor() {return table;}
 }

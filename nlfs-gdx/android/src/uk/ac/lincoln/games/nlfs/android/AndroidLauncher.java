@@ -2,7 +2,8 @@ package uk.ac.lincoln.games.nlfs.android;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
+import android.provider.Settings;
+import android.util.Log;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
@@ -12,9 +13,9 @@ public class AndroidLauncher extends AndroidApplication {
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		final TelephonyManager tm = (TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
 
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new NonLeague(tm.getDeviceId()), config);
+		Log.d("BEN", Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID));
+		initialize(new NonLeague(Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)), config);
 	}
 }

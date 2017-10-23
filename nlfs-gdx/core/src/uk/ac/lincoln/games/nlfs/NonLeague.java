@@ -4,6 +4,7 @@ import uk.ac.lincoln.games.nlfs.logic.GameState;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -14,9 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class NonLeague extends Game {
-	Texture img;
-		
-	//public Skin skin;
 	public FitViewport viewport;
 	public GameState state;
 	private String hardware_id; //used as the seed to ensure the player always gets the same team. Simulated in desktop
@@ -59,7 +57,7 @@ public class NonLeague extends Game {
 		Gdx.app.log("NONLEAGUE","Starting up");
 		viewport = new FitViewport(720,1280);
 		
-		state = GameState.getGameState(Long.valueOf(hardware_id),true);
+		state = GameState.getGameState(hardware_id,true);
 
 		teamstatus_screen = new TeamStatus(this);
 		prematch_screen = new PreMatch(this);
@@ -76,9 +74,7 @@ public class NonLeague extends Game {
 	}
 
 	public void pause () {
-		GameState.getGameState(Long.valueOf(hardware_id)).saveGame();
-		//Assets.skin.dispose();
-		//Gdx.app.exit();
+		GameState.getGameState(hardware_id).saveGame();
 	}
 
 	public void resume () {
@@ -91,8 +87,9 @@ public class NonLeague extends Game {
 		Assets.dispose();
 	}
 	
-	public NonLeague(String hardware_id) {
+	public NonLeague(String full_hardware_id) {
 		super();
-		this.hardware_id = hardware_id;
+		this.hardware_id = full_hardware_id.substring(0,8);
+
 	}
 }

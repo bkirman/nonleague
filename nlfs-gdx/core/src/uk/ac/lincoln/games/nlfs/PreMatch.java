@@ -8,6 +8,7 @@ import uk.ac.lincoln.games.nlfs.ui.TeamLabel;
 import uk.ac.lincoln.games.nlfs.ui.Tutorial;
 import uk.ac.lincoln.games.nlfs.ui.TutorialWindow;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -25,7 +26,7 @@ public class PreMatch extends BaseScreen{
 	
 	private TeamLabel home_label,away_label; 
 	private Label stadium_label;//,weather_label;
-	
+	private long time_started;
 	private TextButton button;
 	RitualSelector clothes_ritual;
 	RitualSelector food_ritual;
@@ -144,7 +145,10 @@ public class PreMatch extends BaseScreen{
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
 				Assets.manager.get("click.wav", Sound.class).play(GameState.getVol());
-				game.changeScreen(game.matchview_screen);
+                //TODO: spawn thread to store data: time on this screen, rituals selected, match result (player first), league position
+                String data = "\"rituals\":{\"selected\":[\""+clothes_ritual.getSelected()+"\",\""+food_ritual.getSelected()+"\",\""+drink_ritual.getSelected()+"\",\""+bring_ritual.getSelected()+"\"],\"time\":"+String.valueOf(System.currentTimeMillis()-time_started)+"},";
+				System.out.println(data);
+                game.changeScreen(game.matchview_screen);
 			}});
 		Tutorial tut = new Tutorial("Rituals", "You go to see all of your team's matches (of course), however you only have indirect impact on the result.\n Your job is to support your team as best as you can through careful selection of your pre-match rituals. Choose what to wear, drink, eat and bring here and support your team to success!","Choose Rituals");
 		tut.setPosition(stage.getWidth()-54,6);
@@ -165,12 +169,12 @@ public class PreMatch extends BaseScreen{
 			away_label.getStyle().fontColor = Assets.skin.getColor(match.away.colour_base);
 		}
 
-		//RESET the ritual clickers - this is important because we want rituals to be chosen explicitly for the study. However in terms of UX it is better if it is saved.
-		clothes_ritual.reset();
+		//Don't reset the ritual clickers. Instead track how long people spend on the ritual screen. If this is short we know they are skipping ritual selection
+		/*clothes_ritual.reset();
 		food_ritual.reset();
 		drink_ritual.reset();
-		bring_ritual.reset();
-		//weather_label.setText(match.getWeather());
+		bring_ritual.reset();*/
+		time_started = System.currentTimeMillis();
 		stadium_label.setText(match.getWeather()+" at "+match.home.stadium);
 	}
 	

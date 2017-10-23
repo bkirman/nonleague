@@ -28,25 +28,29 @@ public class GameState {
 	private static boolean enable_saving = true; //all should be true for normal operation
 	private static boolean enable_b64_savefile = true;//NB existing saves will be made invalid when changing this setting
 	private static boolean enable_seed = true; //enable or disable fixed seeds based on hardware
+	public static String VERSION = "2.1.0";
+	public static String DEVICE_ID;
 
-	
-	public static GameState getGameState(long seed) {
+
+	public static GameState getGameState(String device) {
 		
 		if(state==null) {
-			state = new GameState(seed);
+			state = new GameState(device);
 		}
 		return state;
 	}
-	public static GameState getGameState(long seed, boolean force) {
+	public static GameState getGameState(String device, boolean force) {
 		
 		if(state==null || force) {
-			state = new GameState(seed);
+			state = new GameState(device);
 		}
 		return state;
 	}
 	public static float getVol() {return league.SETTINGS.VOLUME;}
 
-	public GameState(long seed) {
+	public GameState(String device) {
+		DEVICE_ID = device;
+		long seed = Long.decode("0x"+device);
 		assets = new Assets();
 		if(enable_seed && seed != 0)	rand = new Random(seed);
 		else rand = new Random();
