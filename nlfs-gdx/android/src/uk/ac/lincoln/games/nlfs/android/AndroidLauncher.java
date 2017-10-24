@@ -1,6 +1,5 @@
 package uk.ac.lincoln.games.nlfs.android;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -15,7 +14,6 @@ public class AndroidLauncher extends AndroidApplication {
 		super.onCreate(savedInstanceState);
 
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		Log.d("BEN", Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID));
 		initialize(new NonLeague(Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID)), config);
 	}
 }

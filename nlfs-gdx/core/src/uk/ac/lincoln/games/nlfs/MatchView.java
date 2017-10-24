@@ -7,11 +7,13 @@ import uk.ac.lincoln.games.nlfs.logic.GameState;
 import uk.ac.lincoln.games.nlfs.logic.Goal;
 import uk.ac.lincoln.games.nlfs.logic.Match;
 import uk.ac.lincoln.games.nlfs.logic.MatchEvent;
+import uk.ac.lincoln.games.nlfs.net.DataLogger;
 import uk.ac.lincoln.games.nlfs.ui.Settings;
 import uk.ac.lincoln.games.nlfs.ui.TeamLabel;
 import uk.ac.lincoln.games.nlfs.ui.Tutorial;
 import uk.ac.lincoln.games.nlfs.ui.TutorialWindow;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -280,7 +282,12 @@ public class MatchView extends BaseScreen{
 		current_home = 0;
 		current_away = 0;
 		match = GameState.league.findTeamsNextFixture(GameState.player_team);
-		GameState.league.playWeek();
+		GameState.league.playWeek();//run simulation
+		//add data to logger
+		GameState.current_packet.addResult(match.opponentFor(GameState.player_team).name,(match.home==GameState.player_team),
+				match.result.goalsFor(GameState.player_team),match.result.goalsAgainst(GameState.player_team), GameState.league.getTeamPosition(GameState.player_team));
+		GameState.data_packets.add(GameState.current_packet);
+		DataLogger.sendData(GameState.data_packets);
 		bg_music = Assets.manager.get("bg.mp3",Music.class);
 		bg_music.setVolume(0.2f*GameState.getVol());
 		goals = new ArrayList<Goal>();

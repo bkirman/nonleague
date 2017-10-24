@@ -384,9 +384,6 @@ public class League {
 			m.reinit(this);
 		for(LeagueTableItem lti: table)
 			lti.reinit(this);
-		
-		//regenerate league table
-		//resetLeagueTable();
 	}
 	
 }

@@ -3,6 +3,7 @@ package uk.ac.lincoln.games.nlfs;
 
 import uk.ac.lincoln.games.nlfs.logic.GameState;
 import uk.ac.lincoln.games.nlfs.logic.Match;
+import uk.ac.lincoln.games.nlfs.net.DataPacket;
 import uk.ac.lincoln.games.nlfs.ui.RitualSelector;
 import uk.ac.lincoln.games.nlfs.ui.TeamLabel;
 import uk.ac.lincoln.games.nlfs.ui.Tutorial;
@@ -15,6 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+
+import java.util.ArrayList;
 
 /**
  * Screen before match where players select the rituals they will use
@@ -145,9 +148,15 @@ public class PreMatch extends BaseScreen{
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
 				Assets.manager.get("click.wav", Sound.class).play(GameState.getVol());
-                //TODO: spawn thread to store data: time on this screen, rituals selected, match result (player first), league position
-                String data = "\"rituals\":{\"selected\":[\""+clothes_ritual.getSelected()+"\",\""+food_ritual.getSelected()+"\",\""+drink_ritual.getSelected()+"\",\""+bring_ritual.getSelected()+"\"],\"time\":"+String.valueOf(System.currentTimeMillis()-time_started)+"},";
-				System.out.println(data);
+				//store data about rituals
+				ArrayList<String> rituals_selected = new ArrayList<String>();
+				rituals_selected.add(clothes_ritual.getSelected());
+				rituals_selected.add(food_ritual.getSelected());
+				rituals_selected.add(drink_ritual.getSelected());
+				rituals_selected.add(bring_ritual.getSelected());
+
+				GameState.current_packet = new DataPacket();
+				GameState.current_packet.addRituals(rituals_selected,System.currentTimeMillis()-time_started);
                 game.changeScreen(game.matchview_screen);
 			}});
 		Tutorial tut = new Tutorial("Rituals", "You go to see all of your team's matches (of course), however you only have indirect impact on the result.\n Your job is to support your team as best as you can through careful selection of your pre-match rituals. Choose what to wear, drink, eat and bring here and support your team to success!","Choose Rituals");
