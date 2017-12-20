@@ -48,7 +48,10 @@ public class SplashScreen extends BaseScreen {
 				public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 					intro.stop();
 					intro.dispose();
-					game.changeScreen(game.teamstatus_screen);
+					if(GameState.league.SETTINGS.FIRST_RUN)
+						game.changeScreen(game.consent_screen);
+					else
+						game.changeScreen(game.teamstatus_screen);
 					return true;
 				}
 			});
@@ -82,7 +85,10 @@ public class SplashScreen extends BaseScreen {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 				intro.stop();
 				intro.dispose();
-				game.changeScreen(game.teamstatus_screen);
+				if(GameState.league.SETTINGS.FIRST_RUN)
+					game.changeScreen(game.consent_screen);
+				else
+					game.changeScreen(game.teamstatus_screen);
 
                 return true;
             }

@@ -44,7 +44,7 @@ public class ChangeSettings extends BaseScreen {
             }
         });
 
-        TextButton weblink = new TextButton("Open Research Info Page",Assets.skin);
+        TextButton weblink = new TextButton("Research Information",Assets.skin);
         weblink.addListener(new InputListener(){
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 return true;
