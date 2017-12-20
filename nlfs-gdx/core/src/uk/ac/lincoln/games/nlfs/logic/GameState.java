@@ -32,9 +32,6 @@ public class GameState {
 	private static boolean enable_seed = true; //enable or disable fixed seeds based on hardware
 	public static String VERSION = "2.1.0";
 	public static String DEVICE_ID;
-	public static ArrayList<DataPacket> data_packets;
-	public static DataPacket current_packet;
-
 
 	public static GameState getGameState(String device) {
 		
@@ -56,7 +53,7 @@ public class GameState {
 		DEVICE_ID = device;
 		long seed = Long.decode("0x"+device);
 		assets = new Assets();
-		data_packets = new ArrayList<DataPacket>();
+
 		if(enable_seed && seed != 0)	rand = new Random(seed);
 		else rand = new Random();
 		rand2 = new Random();

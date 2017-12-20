@@ -8,6 +8,7 @@ import uk.ac.lincoln.games.nlfs.logic.Goal;
 import uk.ac.lincoln.games.nlfs.logic.Match;
 import uk.ac.lincoln.games.nlfs.logic.MatchEvent;
 import uk.ac.lincoln.games.nlfs.net.DataLogger;
+import uk.ac.lincoln.games.nlfs.net.DataPacket;
 import uk.ac.lincoln.games.nlfs.ui.Settings;
 import uk.ac.lincoln.games.nlfs.ui.TeamLabel;
 import uk.ac.lincoln.games.nlfs.ui.Tutorial;
@@ -34,6 +35,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
+
+import javax.xml.crypto.Data;
 
 /**
  * Display the ongoing match and calculate the results
@@ -226,7 +229,7 @@ public class MatchView extends BaseScreen{
 		
 		event_table = new Table(Assets.skin);
 		event_table.setBackground(Assets.skin.getDrawable("darken"));
-		event_table.setWidth(600);
+		event_table.setWidth(610);
 		//event_table.setDebug(true);
 		action_pane = new ScrollPane(event_table);
 		table.add(action_pane).colspan(2).width(610).height(650).expand().fill();
@@ -284,10 +287,13 @@ public class MatchView extends BaseScreen{
 		match = GameState.league.findTeamsNextFixture(GameState.player_team);
 		GameState.league.playWeek();//run simulation
 		//add data to logger
-		GameState.current_packet.addResult(match.opponentFor(GameState.player_team).name,(match.home==GameState.player_team),
-				match.result.goalsFor(GameState.player_team),match.result.goalsAgainst(GameState.player_team), GameState.league.getTeamPosition(GameState.player_team));
-		GameState.data_packets.add(GameState.current_packet);
-		DataLogger.sendData(GameState.data_packets);
+		if(GameState.league.SETTINGS.CONSENT) {
+
+			DataLogger.current_packet.addResult(match.opponentFor(GameState.player_team).name, (match.home == GameState.player_team),
+					match.result.goalsFor(GameState.player_team), match.result.goalsAgainst(GameState.player_team), GameState.league.getTeamPosition(GameState.player_team));
+			DataLogger.add(DataLogger.current_packet);
+			DataLogger.current_packet = new DataPacket();
+		}
 		bg_music = Assets.manager.get("bg.mp3",Music.class);
 		bg_music.setVolume(0.2f*GameState.getVol());
 		goals = new ArrayList<Goal>();
@@ -300,8 +306,8 @@ public class MatchView extends BaseScreen{
 		
 		//if same kits, invert away
 		if(match.away.colour_base==match.home.colour_base&&match.away.colour_primary==match.home.colour_primary) {
-			away_label.getStyle().background = Assets.skin.newDrawable("base",Assets.skin.getColor(match.away.colour_primary));
-			away_label.getStyle().fontColor = Assets.skin.getColor(match.away.colour_base);
+			away_label.getStyle().background = Assets.skin.newDrawable("base",Assets.skin.getColor(match.away.colour_base));
+			away_label.getStyle().fontColor = Assets.skin.getColor(match.away.colour_primary);
 		} 
 		
 		button.setDisabled(false);

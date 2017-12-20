@@ -1,6 +1,8 @@
 package uk.ac.lincoln.games.nlfs;
 
 import uk.ac.lincoln.games.nlfs.logic.GameState;
+import uk.ac.lincoln.games.nlfs.net.DataLogger;
+import uk.ac.lincoln.games.nlfs.net.DataPacket;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -14,9 +16,14 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import java.util.ArrayList;
+
+import javax.xml.crypto.Data;
+
 public class NonLeague extends Game {
 	public FitViewport viewport;
 	public GameState state;
+	public static DataLogger data_logger;
 	private String hardware_id; //used as the seed to ensure the player always gets the same team. Simulated in desktop
 	
 	public TeamStatus teamstatus_screen;//messy architecture but saves on garbage collection
@@ -59,6 +66,8 @@ public class NonLeague extends Game {
 		viewport = new FitViewport(720,1280);
 		
 		state = GameState.getGameState(hardware_id,true);
+		DataLogger.packets = new ArrayList<DataPacket>();
+		DataLogger.load();
 
 		teamstatus_screen = new TeamStatus(this);
 		prematch_screen = new PreMatch(this);
@@ -76,7 +85,9 @@ public class NonLeague extends Game {
 	}
 
 	public void pause () {
+
 		GameState.getGameState(hardware_id).saveGame();
+		DataLogger.save();
 	}
 
 	public void resume () {
