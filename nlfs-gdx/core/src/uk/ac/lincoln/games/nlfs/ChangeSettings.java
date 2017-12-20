@@ -44,6 +44,17 @@ public class ChangeSettings extends BaseScreen {
             }
         });
 
+        TextButton weblink = new TextButton("Open Research Info Page",Assets.skin);
+        weblink.addListener(new InputListener(){
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                Assets.manager.get("click.wav", Sound.class).play(GameState.getVol());
+                Gdx.net.openURI("https://sites.google.com/york.ac.uk/nlfs");
+            }
+        });
+
 
         table.add(new Label("Settings",Assets.skin, "teamname")).fillX().expandX().center().colspan(2);
 
@@ -57,8 +68,9 @@ public class ChangeSettings extends BaseScreen {
         table.add("Debug Info:").left();
         table.add("v:"+GameState.VERSION+", "+"id:"+GameState.DEVICE_ID).right().colspan(2);
 
+        table.row().padTop(25);
+        table.add(weblink).colspan(2);
         table.row().padTop(5);
-
         TextButton backbutton = new TextButton("Next Match", Assets.skin);
         table.add(backbutton).width(480).height(85).colspan(2);
         table.row();
