@@ -58,7 +58,7 @@ project(":android") {
     }
 }
 
-project(":ios") {
+/*project(":ios") {
     apply plugin: "java"
     apply plugin: "robovm"
 
@@ -71,7 +71,7 @@ project(":ios") {
         compile "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
     }
-}
+}*/
 
 project(":html") {
     apply plugin: "gwt"

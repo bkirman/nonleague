@@ -12,5 +12,6 @@ eclipse.project {
 
 dependencies {
     compile 'com.google.gwt:gwt-user:2.8.0'
-    compile 'org.robovm:robovm-rt:1.9.0'
+    compile 'org.json:json:20141113'
+    //compile 'org.robovm:robovm-rt:1.9.0'
 }
