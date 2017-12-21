@@ -155,6 +155,8 @@ public class PreMatch extends BaseScreen{
 				rituals_selected.add(food_ritual.getSelected());
 				rituals_selected.add(drink_ritual.getSelected());
 				rituals_selected.add(bring_ritual.getSelected());
+				String[] last = {clothes_ritual.getSelected(),food_ritual.getSelected(),drink_ritual.getSelected(),bring_ritual.getSelected()};
+				GameState.league.SETTINGS.LAST_RITUALS = last;
 
 				DataLogger.current_packet = new DataPacket();
 				DataLogger.current_packet.addRituals(rituals_selected,System.currentTimeMillis()-time_started);
@@ -179,11 +181,19 @@ public class PreMatch extends BaseScreen{
 			away_label.getStyle().fontColor = Assets.skin.getColor(match.away.colour_base);
 		}
 
+
 		//Don't reset the ritual clickers. Instead track how long people spend on the ritual screen. If this is short we know they are skipping ritual selection
+
 		/*clothes_ritual.reset();
 		food_ritual.reset();
 		drink_ritual.reset();
 		bring_ritual.reset();*/
+		//however, do load the last ritual used.
+		clothes_ritual.setSelected(GameState.league.SETTINGS.LAST_RITUALS[0]);
+		food_ritual.setSelected(GameState.league.SETTINGS.LAST_RITUALS[1]);
+		drink_ritual.setSelected(GameState.league.SETTINGS.LAST_RITUALS[2]);
+		bring_ritual.setSelected(GameState.league.SETTINGS.LAST_RITUALS[3]);
+
 		time_started = System.currentTimeMillis();
 		stadium_label.setText(match.getWeather()+" at "+match.home.stadium);
 	}

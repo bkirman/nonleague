@@ -11,6 +11,7 @@ public class SettingsContainer {
     public float VOLUME = 0.7f;
     public boolean CONSENT = true;
     public boolean FIRST_RUN = true;
+    public String[] LAST_RITUALS = {"none","none","none","none"};
 
     public void toggleMute(){ if(VOLUME == 0.0f) VOLUME=0.7f;else VOLUME=0.0f; }
 }

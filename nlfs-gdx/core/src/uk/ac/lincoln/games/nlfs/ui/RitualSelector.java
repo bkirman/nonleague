@@ -78,10 +78,7 @@ public class RitualSelector {
 
 	public void reset() { //reset selection
 		bg.uncheckAll();
-		for(RitualButton r:buttons){
-			if(r.icon=="none") r.setChecked(true);
-			else r.setChecked(false);
-		}
+		setSelected("none");
 	}
 
 	/**
@@ -90,6 +87,14 @@ public class RitualSelector {
 	 */
 	public String getSelected() {
 		return ((RitualButton) bg.getChecked()).icon;
+	}
+
+	public void setSelected(String i) {
+		bg.uncheckAll();
+		for(RitualButton r:buttons){
+			if(r.icon.equals(i)) r.setChecked(true);
+			else r.setChecked(false);
+		}
 	}
 	
 	public Table getActor() {return table;}

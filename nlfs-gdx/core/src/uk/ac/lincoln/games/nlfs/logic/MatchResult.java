@@ -10,7 +10,7 @@ import uk.ac.lincoln.games.nlfs.logic.MatchEvent.MatchEventType;
 public class MatchResult {
 	public transient Match match;
 	public ArrayList<Goal> home_goals, away_goals;
-	public ArrayList<MatchEvent> match_events;
+	public transient ArrayList<MatchEvent> match_events;
 	public int first_half_length;
     public int second_half_length;
 	public int gate;
@@ -148,9 +148,6 @@ public class MatchResult {
 		}
 		for(Goal g: away_goals) {
 			g.reinit(match.away);
-		}
-		for(MatchEvent me:match_events) {
-			me.reinit(match);
 		}
 	}
 }
