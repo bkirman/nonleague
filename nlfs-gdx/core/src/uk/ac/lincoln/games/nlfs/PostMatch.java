@@ -94,6 +94,11 @@ public class PostMatch extends BaseScreen {
 		//update screen since at this point we should have a result
 		home_label.update(result.match.home);
 		away_label.update(result.match.away);
+		//if same kits, invert away
+		if(result.match.away.colour_base.equals(result.match.home.colour_base)&&result.match.away.colour_primary.equals(result.match.home.colour_primary)) {
+			away_label.getStyle().background = Assets.skin.newDrawable("base",Assets.skin.getColor(result.match.away.colour_primary));
+			away_label.getStyle().fontColor = Assets.skin.getColor(result.match.away.colour_base);
+		}
 		home_score_label.setText(" "+String.valueOf(result.home_goals.size())+" ");
 		away_score_label.setText(" "+String.valueOf(result.away_goals.size())+" ");
 		

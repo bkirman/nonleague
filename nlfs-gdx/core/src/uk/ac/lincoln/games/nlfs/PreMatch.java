@@ -174,15 +174,15 @@ public class PreMatch extends BaseScreen{
 		//Set team names/colours
 		home_label.update(match.home);
 		away_label.update(match.away);
-		
-		//if same kits, invert away
-		if(match.away.colour_base==match.home.colour_base&&match.away.colour_primary==match.home.colour_primary) {
-			away_label.getStyle().background = Assets.skin.newDrawable("base",Assets.skin.getColor(match.away.colour_primary));
-			away_label.getStyle().fontColor = Assets.skin.getColor(match.away.colour_base);
-		}
+
+        //if same kits, invert away
+        if(match.away.colour_base.equals(match.home.colour_base)&&match.away.colour_primary.equals(match.home.colour_primary)) {
+            away_label.getStyle().background = Assets.skin.newDrawable("base",Assets.skin.getColor(match.away.colour_primary));
+            away_label.getStyle().fontColor = Assets.skin.getColor(match.away.colour_base);
+        }
 
 
-		//Don't reset the ritual clickers. Instead track how long people spend on the ritual screen. If this is short we know they are skipping ritual selection
+        //Don't reset the ritual clickers. Instead track how long people spend on the ritual screen. If this is short we know they are skipping ritual selection
 
 		/*clothes_ritual.reset();
 		food_ritual.reset();

@@ -305,9 +305,9 @@ public class MatchView extends BaseScreen{
 		away_label.update(match.away);
 		
 		//if same kits, invert away
-		if(match.away.colour_base==match.home.colour_base&&match.away.colour_primary==match.home.colour_primary) {
-			away_label.getStyle().background = Assets.skin.newDrawable("base",Assets.skin.getColor(match.away.colour_base));
-			away_label.getStyle().fontColor = Assets.skin.getColor(match.away.colour_primary);
+		if(match.away.colour_base.equals(match.home.colour_base)&&match.away.colour_primary.equals(match.home.colour_primary)) {
+			away_label.getStyle().background = Assets.skin.newDrawable("base",Assets.skin.getColor(match.away.colour_primary));
+			away_label.getStyle().fontColor = Assets.skin.getColor(match.away.colour_base);
 		} 
 		
 		button.setDisabled(false);
