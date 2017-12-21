@@ -40,7 +40,7 @@ public class DataPacket {
             for (String r : rituals) {
                 ritual_arr.put(r);
             }
-            ritual_json.put("selected:",ritual_arr);
+            ritual_json.put("selected",ritual_arr);
             json.put("rituals",ritual_json);
         }catch (JSONException e) {
             Gdx.app.log("DataPacket:addRituals",e.getMessage());
