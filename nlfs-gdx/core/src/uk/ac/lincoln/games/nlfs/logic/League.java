@@ -24,7 +24,7 @@ import uk.ac.lincoln.games.nlfs.Assets;
 public class League {
 	public ArrayList<Match> fixtures;
 	public ArrayList<Team> teams;
-	private int current_week;
+	public int current_week;
 	public ArrayList<MatchResult> weekly_results;
 	public ArrayList<LeagueTableItem> table;
 	public String name;
@@ -36,6 +36,7 @@ public class League {
 	public static int LEAGUE_SIZE = 12; //number of teams in the league. Even numbers only, otherwise round robin won't work properly
 	public static int PROMOTION = 2; //number of teams promoted/relegated at the end of the season. (promotion + relegation) < league size, dickhead.
 	public static int RELEGATION = 2;
+	public int current_year;
 	
 	/**
 	 * The constructor is used to randomly generate an entire league. This is fairly intense so might need a loading screen
@@ -56,6 +57,7 @@ public class League {
 		//Generate fixtures
 		fixtures = generateFixtures(teams);
 		current_week = 1;
+		current_year = 1;
 		//final_week = 2*(LEAGUE_SIZE-1);
 		resetLeagueTable();
 	}
@@ -116,6 +118,7 @@ public class League {
 		//Generate fixtures
 		fixtures = generateFixtures(teams);
 		current_week = 1;
+		current_year++;
 		//final_week = 2*(LEAGUE_SIZE-1);
 		resetLeagueTable();
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.net.HttpRequestBuilder;
+import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.Timer;
@@ -33,8 +34,8 @@ public class DataLogger {
     }
 
     public static void sendData(ArrayList<DataPacket> data) {
-        ArrayList<DataPacket> done = new ArrayList<DataPacket>();
-        for(DataPacket d:data) {
+
+        for(final DataPacket d:data) {
             if(!d.isComplete()||d.isSent())continue;
             final String jsondata = d.getData();
             Timer.instance().scheduleTask(new Timer.Task() {
@@ -50,6 +51,9 @@ public class DataLogger {
                         @Override
                         public void handleHttpResponse(Net.HttpResponse httpResponse) {
                             Gdx.app.log("sendData","Response: "+httpResponse.getResultAsString());
+                            if(httpResponse.getStatus().getStatusCode() == HttpStatus.SC_OK) {
+                                d.markSent();
+                            }
                         }
 
                         @Override
@@ -65,12 +69,8 @@ public class DataLogger {
 
                 }
             }, 0);
-            Gdx.app.log("DataLogger",d.getData());
-            d.markSent();
-            done.add(d);
+            //Gdx.app.log("DataLogger",d.getData());
         }
-        data.removeAll(done);
-
     }
 
     /**
@@ -82,6 +82,13 @@ public class DataLogger {
         if(packets.size()>MAX_UNSENT_PACKETS) return;
         packets.add(dp);
         sendData(packets);
+        //remove old packets
+        ArrayList<DataPacket> done = new ArrayList<DataPacket>();
+        for(DataPacket d:packets) {
+            if(d.isSent())done.add(d);
+        }
+        packets.removeAll(done);
+        current_packet = new DataPacket();
     }
     /**
      * Methods to load/save unsent packets from local storage

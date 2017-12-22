@@ -54,8 +54,8 @@ public class LeagueTable extends BaseScreen {
 		league_table.clear();
 		league_table.add().align(Align.left).fillX();
 		league_table.add(new Label("W",Assets.skin,"default"));
-		league_table.add(new Label("L",Assets.skin,"default"));
 		league_table.add(new Label("D",Assets.skin,"default"));
+		league_table.add(new Label("L",Assets.skin,"default"));
 		league_table.add(new Label("PTS",Assets.skin,"default"));
 		league_table.row().pad(2);
 		int i = 0;
@@ -65,8 +65,9 @@ public class LeagueTable extends BaseScreen {
 			league_table.add(new TeamLabel(lti.team,"teamname")).align(Align.left).fillX();
 			//league_table.add(new Label(String.valueOf(lti.getGamesPlayed()),Assets.skin,"lt_points"));
 			league_table.add(new Label(String.valueOf(lti.wins),Assets.skin,"lt_points"));
-			league_table.add(new Label(String.valueOf(lti.losses),Assets.skin,"lt_points"));
+
 			league_table.add(new Label(String.valueOf(lti.draws),Assets.skin,"lt_points"));
+			league_table.add(new Label(String.valueOf(lti.losses),Assets.skin,"lt_points"));
 			
 			if(i<=League.PROMOTION) {
 				league_table.add(new Label(" "+String.valueOf(lti.points),Assets.skin,"lt_points_p"));

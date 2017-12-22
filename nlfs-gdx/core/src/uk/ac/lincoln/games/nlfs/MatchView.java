@@ -290,7 +290,7 @@ public class MatchView extends BaseScreen{
 		if(GameState.league.SETTINGS.CONSENT) {
 
 			DataLogger.current_packet.addResult(match.opponentFor(GameState.player_team).name, (match.home == GameState.player_team),
-					match.result.goalsFor(GameState.player_team), match.result.goalsAgainst(GameState.player_team), GameState.league.getTeamPosition(GameState.player_team));
+					match.result.goalsFor(GameState.player_team), match.result.goalsAgainst(GameState.player_team), GameState.league.getTeamPosition(GameState.player_team),GameState.league.current_year,GameState.league.current_week);
 			DataLogger.add(DataLogger.current_packet);
 			DataLogger.current_packet = new DataPacket();
 		}

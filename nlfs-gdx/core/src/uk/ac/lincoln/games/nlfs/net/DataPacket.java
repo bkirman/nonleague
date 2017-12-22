@@ -23,7 +23,7 @@ public class DataPacket {
         complete = false;
         sent = false;
         try {//init with time of creation, device ID and NLFS version
-            json.put("time", System.currentTimeMillis());
+
             json.put("id", GameState.DEVICE_ID);
             json.put("v",GameState.VERSION);
             json.put("team",GameState.player_team.name);
@@ -33,6 +33,7 @@ public class DataPacket {
     }
 
     public void addRituals(ArrayList<String> rituals, long time_spent) {
+        json.put("time", (System.currentTimeMillis()/1000));
         JSONObject ritual_json = new JSONObject();
         JSONArray ritual_arr = new JSONArray();
         try {
@@ -47,20 +48,28 @@ public class DataPacket {
         }
     }
 
-    public void addResult(String opponent, boolean home, int player_score, int opponent_score,int new_league_position) {
+    public void addResult(String opponent, boolean home, int player_score, int opponent_score,int new_league_position, int year, int week) {
+
         String wld ="";
         if (player_score>opponent_score) wld = "w";
         if (player_score<opponent_score) wld = "l";
         if (player_score==opponent_score) wld = "d";
+
         JSONObject result = new JSONObject();
         try{
             result.put("wld",wld);
             result.put("opp",opponent);
-            result.put("home",home);
+            if(home)
+                result.put("home",1);
+            else
+                result.put("home",0);
             result.put("p",player_score);
             result.put("o",opponent_score);
             result.put("pos",new_league_position);
+            result.put("year",year);
+            result.put("week",week);
             json.put("result",result);
+
         }catch (JSONException e) {
             Gdx.app.log("DataPacket:addResult",e.getMessage());
         }
