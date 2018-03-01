@@ -9,6 +9,7 @@ hs_err_pid*
 *.keystore
 android_compile
 tools/
+build/
 
 ## GWT
 war/

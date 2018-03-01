@@ -1,11 +1,6 @@
 Non-League Football Supporter
 =========
-The game is currently at alpha state, and works well on Android (4.0+)
-
-Outstanding Tasks
-------------------
-- Iconography needs doing nicely
-- Tutorial on first match for new players
+The game is currently at beta state, and works well on Android (4.0+). Note the code will function but is incomplete due to a first party non-open library.
 
 Bugs
 ----
@@ -44,3 +39,7 @@ Images:
 Sounds:
 -------
 - Click: Littlerobotsoundfactory, http://freesound.org/people/littlerobotsoundfactory/sounds/288909/
+
+Other
+-----
+Generated place names from Dan Hon: https://github.com/danhon/british-placenames/blob/master/generated_british_placenames.txt
