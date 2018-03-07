@@ -76,7 +76,7 @@ public class TeamStatus extends BaseScreen {
 
 		table.add(button).width(480).height(90).colspan(2);
 		table.row();
-		Gdx.input.setInputProcessor(stage);
+
 		tut = new Tutorial("Welcome", "Welcome to the most authentic football supporter simulation in the world!\n You support "+GameState.player_team.name+". You always have and always will. This cannot be changed.\n This screen shows your team's status, league position and next opponent. Once you get familiar with your team, prepare for your next match","Get Started");
 		tut.setPosition(stage.getWidth()-54,6);
 		stage.addActor(tut);

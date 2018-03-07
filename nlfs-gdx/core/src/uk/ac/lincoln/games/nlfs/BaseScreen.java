@@ -1,16 +1,14 @@
 package uk.ac.lincoln.games.nlfs;
 
-import uk.ac.lincoln.games.nlfs.NonLeague.Background;
-
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
-public abstract class BaseScreen implements Screen {
+public abstract class BaseScreen implements Screen, InputProcessor {
 	
 	protected final NonLeague game;
     protected final Stage stage;
@@ -21,8 +19,7 @@ public abstract class BaseScreen implements Screen {
     {
         this.game = game;
         stage = new Stage(game.viewport);
-        Gdx.input.setInputProcessor(stage);
-		table = new Table();
+        table = new Table();
 		stage.addActor(game.new Background());
 		
 		root_table = new Table();
@@ -35,8 +32,28 @@ public abstract class BaseScreen implements Screen {
 		table.setBackground(Assets.skin.getDrawable("transparent"));//.skin.getDrawable("transparent"));
 
 		table.setSkin(Assets.skin);
-		Gdx.input.setInputProcessor(stage);
     }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.BACK)
+            return this.back();
+        return false;
+    }
+    //other inputlistener events ignored (stage will handle them)
+    public boolean scrolled(int i){return false;}
+    public boolean keyTyped(char character){return false;}
+    public boolean keyUp(int keycode){return false;}
+    public boolean mouseMoved(int screenX, int screenY){return false;}
+    public boolean touchDown(int screenX, int screenY, int pointer, int button){return false;}
+    public boolean touchDragged(int screenX, int screenY, int pointer){return false;}
+    public boolean touchUp(int screenX, int screenY, int pointer, int button){return false;}
+
+    /**
+     * Override back to handle back button, otherwise it is handled by OS
+     * @return
+     */
+    public boolean back() {return false;}
     
     public abstract void update();//This function called when screen is about to be shown
     
@@ -58,24 +75,19 @@ public abstract class BaseScreen implements Screen {
     }
 
     @Override
-    public void show() {        
-    	//Assets.manager.finishLoading();
+    public void show() {
     }
 
     @Override
     public void hide() {
-        
     }
 
     @Override
     public void pause() {
- 
     }
 
     @Override
     public void resume() {
-    	
-    	
     }
 
     @Override

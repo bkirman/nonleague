@@ -94,10 +94,6 @@ public class SplashScreen extends BaseScreen {
             }
         });
         stage.addActor(label);
-
-
-		Gdx.input.setInputProcessor(stage);
-
 	}
 	public void update(){
 		intro.play(GameState.getVol());

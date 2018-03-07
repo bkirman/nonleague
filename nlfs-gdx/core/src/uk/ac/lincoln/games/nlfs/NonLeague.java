@@ -6,6 +6,7 @@ import uk.ac.lincoln.games.nlfs.net.DataPacket;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
@@ -58,7 +59,8 @@ public class NonLeague extends Game {
 		s.update();//refresh data on screen
 		this.setScreen(s);
 		s.reset();
-		Gdx.input.setInputProcessor(s.stage);
+		InputMultiplexer multiplexer = new InputMultiplexer(s.stage,s); //multiplexer means basescreen can handle back button while stage handles touch
+		Gdx.input.setInputProcessor(multiplexer);
 	}
 	
 	public void create () {
@@ -80,7 +82,7 @@ public class NonLeague extends Game {
 		settings_screen = new ChangeSettings(this);
 		consent_screen = new InformedConsent(this);
 		//start app flow
-
+		Gdx.input.setCatchBackKey(true);
 		this.changeScreen(splash_screen);
 	}
 

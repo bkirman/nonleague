@@ -165,7 +165,6 @@ public class PreMatch extends BaseScreen{
 		Tutorial tut = new Tutorial("Rituals", "You go to see all of your team's matches (of course), however you only have indirect impact on the result.\n Your job is to support your team as best as you can through careful selection of your pre-match rituals. Choose what to wear, drink, eat and bring here and support your team to success!","Choose Rituals");
 		tut.setPosition(stage.getWidth()-54,6);
 		stage.addActor(tut);
-		Gdx.input.setInputProcessor(stage);
 	}
 	
 	public void update() {
@@ -197,7 +196,12 @@ public class PreMatch extends BaseScreen{
 		time_started = System.currentTimeMillis();
 		stadium_label.setText(match.getWeather()+" at "+match.home.stadium);
 	}
-	
+	@Override
+	public boolean back(){
+		game.changeScreen(game.teamstatus_screen);
+		return true;
+	}
+
 	@Override
 	public void render(float delta){
 		super.render(delta);

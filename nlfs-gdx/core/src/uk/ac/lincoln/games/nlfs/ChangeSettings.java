@@ -84,7 +84,6 @@ public class ChangeSettings extends BaseScreen {
                 game.changeScreen(game.teamstatus_screen);
             }});
 
-        Gdx.input.setInputProcessor(stage);
 
     }
 

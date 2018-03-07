@@ -59,7 +59,6 @@ public class InformedConsent extends BaseScreen {
             }
         });
 
-        Gdx.input.setInputProcessor(stage);
     }
 
     public void update() {

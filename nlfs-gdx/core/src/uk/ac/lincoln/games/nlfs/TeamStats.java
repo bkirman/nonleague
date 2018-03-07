@@ -44,9 +44,12 @@ public class TeamStats extends BaseScreen {
                 Assets.manager.get("click.wav", Sound.class).play(GameState.getVol());
                 game.changeScreen(game.teamstatus_screen);
             }});
+    }
 
-        Gdx.input.setInputProcessor(stage);
-
+    @Override
+    public boolean back(){
+        game.changeScreen(game.teamstatus_screen);
+        return true;
     }
 
     public void update() {
