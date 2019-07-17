@@ -65,7 +65,6 @@ public class League {
 	/**
 	 * This will generate a new league around the given team. It will take into account promotion and relegation appropriately.
 	 * relegation and promotion tell the algorithms how many teams to move from the league at both ends. OBVIOUSLY relegation + promotion must be < LEAGUE_SIZE
-	 * @param t
 	 */
 	public void newSeason(Team team_following) {
 		

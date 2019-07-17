@@ -30,7 +30,7 @@ public class GameState {
 	private static boolean enable_saving = true; //all should be true for normal operation
 	private static boolean enable_b64_savefile = true;//NB existing saves will be made invalid when changing this setting
 	private static boolean enable_seed = true; //enable or disable fixed seeds based on hardware
-	public static String VERSION = "2.1.0";
+	public static String VERSION = "2.1.3";
 	public static String DEVICE_ID;
 
 	public static GameState getGameState(String device) {
